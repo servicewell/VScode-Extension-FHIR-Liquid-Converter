@@ -4,7 +4,7 @@
  */
 
 import * as osUtils from '../common/utils/os-utils';
-import { WindowsPlatformData } from './Windows-platform-data';
+import { WindowsPlatformData } from './windows-platform-data';
 import { MacPlatformData } from './mac-platform-data';
 import { IPlatformData } from './platform-data';
 import * as cp from 'child_process';

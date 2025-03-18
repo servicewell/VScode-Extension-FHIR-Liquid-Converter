@@ -224,17 +224,19 @@
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -b",
-		"watch": "tsc -b -w",
-		"postinstall": "cd client && npm install && sh ./install-engine.sh && cd ../server && npm install && cd ..",
+		"watch": "tsc -b -w",		
+		"postinstall": "cd client && npm install && bash ./install-engine.sh && cd ../server && npm install && cd ..",
+		"postinstall_with_git_bash": "cd client && npm install && \"C:\\Program Files\\Git\\bin\\bash.exe\" ./install-engine.sh && cd ../server && npm install && cd ..",
 		"test": "npm run compile && node ./client/out/test/runTest.js && node ./server/out/test/runTest.js",
-		"download-templates": "cd test-data && sh download-templates.sh",
+		"download-templates": "cd test-data && bash download-templates.sh",
+		"download-templates_with_git_bash": "cd test-data && \"C:\\Program Files\\Git\\bin\\bash.exe\" download-templates.sh",
 		"package": "vsce package --githubBranch main --baseContentUrl https://github.com/microsoft/vscode-azurehealthcareapis-tools/tree/main/FHIR-Converter --baseImagesUrl https://raw.githubusercontent.com/microsoft/vscode-azurehealthcareapis-tools/main/FHIR-Converter",
 		"lint": "tslint --fix client/src/**/*.ts  server/src/**/*.ts"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.6",
-		"@types/node": "^14.11.2",
+		"@types/node": "^14.18.63",
 		"@types/vscode": "^1.44.0",
 		"chai": "^4.2.0",
 		"chai-as-promised": "^7.1.1",

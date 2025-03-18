@@ -1,3 +1,6 @@
+# Getting Started
+Read [GettingStarted.md](GettingStarted.md) to get a working environment
+
 # FHIR Converter VS Code extension
 
 [![Build Status](https://microsofthealth.visualstudio.com/Health/_apis/build/status/Resolute/Converter/Dev-CI-SecurityAssessment-VSCode-Tools?branchName=main)](https://microsofthealth.visualstudio.com/Health/_build/latest?definitionId=531&branchName=main)
