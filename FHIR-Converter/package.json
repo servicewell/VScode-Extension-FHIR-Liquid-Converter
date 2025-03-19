@@ -40,6 +40,7 @@
 	"aiKey": "AIF-d9b70cd4-b9f9-4d70-929b-a071c400b217",
 	"activationEvents": [
 		"onCommand:microsoft.health.fhir.converter.convert",
+		"onCommand:microsoft.health.fhir.converter.convertWithoutValidation",
 		"onCommand:microsoft.health.fhir.converter.updateTemplateFolder",
 		"onCommand:microsoft.health.fhir.converter.selectTemplate",
 		"onCommand:microsoft.health.fhir.converter.selectData",
@@ -64,6 +65,10 @@
 			{
 				"command": "microsoft.health.fhir.converter.convert",
 				"title": "FHIR Converter: Convert data"
+			},
+			{
+				"command": "microsoft.health.fhir.converter.convertWithoutValidation",
+				"title": "FHIR Converter: Convert data without validation"
 			},
 			{
 				"command": "microsoft.health.fhir.converter.updateTemplateFolder",
@@ -123,6 +128,10 @@
 					"group": "1_converter"
 				},
 				{
+					"command": "microsoft.health.fhir.converter.convertWithoutValidation",
+					"group": "1_converter"
+				},
+				{
 					"command": "microsoft.health.fhir.converter.selectTemplate",
 					"group": "1_converter",
 					"when": "resourceExtname == .liquid"
@@ -136,6 +145,10 @@
 			"editor/context": [
 				{
 					"command": "microsoft.health.fhir.converter.convert",
+					"group": "1_converter"
+				},
+				{
+					"command": "microsoft.health.fhir.converter.convertWithoutValidation",
 					"group": "1_converter"
 				},
 				{
@@ -168,6 +181,10 @@
 			{
 				"command": "microsoft.health.fhir.converter.convert",
 				"key": "Ctrl+R"
+			},
+			{
+				"command": "microsoft.health.fhir.converter.convertWithoutValidation",
+				"key": "Ctrl+Y"
 			},
 			{
 				"command": "microsoft.health.fhir.converter.pullTemplates",

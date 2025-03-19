@@ -67,7 +67,9 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Register commands
 	registerCommand(context, 'microsoft.health.fhir.converter.createConverterWorkspace', createConverterWorkspaceCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.convert', convertCommand);
+	registerCommand(context, 'microsoft.health.fhir.converter.convert', () => convertCommand(false)); // Normal conversion
+	
+	registerCommand(context, 'microsoft.health.fhir.converter.convertWithoutValidation', () => convertCommand(true)); // Without validation
 
 	registerCommand(context, 'microsoft.health.fhir.converter.selectData', selectDataCommand);
 

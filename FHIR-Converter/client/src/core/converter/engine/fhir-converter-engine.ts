@@ -27,7 +27,7 @@ export class FhirConverterEngine implements IConverterEngine {
 		this._engineExecCmd = engineExecCmd;
 	}
 
-	process(dataFile: string) {
+	process(dataFile: string, skipValidation: boolean) {
 		// Check that data file is available 
 		if (!dataFile) {
 			throw new ConversionError(localize('message.needSelectData'));
@@ -49,6 +49,11 @@ export class FhirConverterEngine implements IConverterEngine {
 			'-n', stringUtils.addQuotes(dataFile), 
 			'-f', stringUtils.addQuotes(defaultResultFile), 
 			'-t'];
+			
+		if (skipValidation) {
+			paramList.push('-s'); // Add the skip validation flag
+		}
+		
 		const cmd =  this._engineExecCmd + paramList.join(' ');
 		try {
 			cp.execSync(cmd, {
@@ -59,9 +64,23 @@ export class FhirConverterEngine implements IConverterEngine {
 		}
 		if (fs.existsSync(defaultResultFile)) {
 			const resultMsg = JSON.parse(fs.readFileSync(defaultResultFile).toString());
+			if (engineUtils.checkConversionHasValidationError(resultMsg)) {
+				// Validation error
+				const unescapedRawOutput = resultMsg.RawOutput
+												.replace(/\\"/g, '"')   // Unescape quotes (\" → ")
+												.replace(/\\r\\n/g, "\n") // Normalize Windows-style newlines
+												.replace(/\\n/g, "\n")  // Normalize Unix-style newlines
+												.replace(/\\t/g, "\t"); // Unescape tabs if needed
+				fileUtils.writeInvalidJsonToFile(resultFile, unescapedRawOutput); 
+				return { resultFile: resultFile, traceInfo: resultMsg.TraceInfo, validationErrorMessage: resultMsg.ErrorMessage };
+			}
+			
 			if (!engineUtils.checkConversionSuccess(resultMsg)) {
+				// Fail:
 				throw new ConversionError(localize('message.noResponseFromEngine'));
 			}
+			
+			// Success:
 			fileUtils.writeJsonToFile(resultFile, resultMsg.FhirResource);
 			return { resultFile: resultFile, traceInfo: resultMsg.TraceInfo };
 		} else {
