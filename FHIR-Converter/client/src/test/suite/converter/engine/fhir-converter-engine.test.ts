@@ -35,7 +35,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 
 	test('Function process - should return a json object with OK status given data, template and template folder', async () => {
 		assert.strictEqual(false, fs.existsSync(resultFile));
-		hl7v2Engine.process(activeDataPath);
+		hl7v2Engine.process(activeDataPath, false);
 		assert.strictEqual(true, fs.existsSync(resultFile));
 		const msg = JSON.parse(fs.readFileSync(resultFile).toString());
 		assert.strictEqual('OK', msg.Status);
@@ -44,7 +44,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 	
 	test('Function process - should throw an error given invalid data', async () => {
 		try {
-			hl7v2Engine.process(invalidActiveDataPath);
+			hl7v2Engine.process(invalidActiveDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);
@@ -54,7 +54,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 	test('Function process - should throw an error given invalid root template', async () => {
 		try {
 			const hl7v2EngineInvalidrootTemplate = new FhirConverterEngine(templateFolder, invalidrootTemplate, resultFolder);
-			hl7v2EngineInvalidrootTemplate.process(activeDataPath);
+			hl7v2EngineInvalidrootTemplate.process(activeDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);
@@ -64,7 +64,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 	test('Function process - should throw an error given invalid template folder', async () => {
 		try {
 			const hl7v2EngineInvalidTemplateFolder = new FhirConverterEngine(invalidTemplateFolder, rootTemplate, resultFolder);
-			hl7v2EngineInvalidTemplateFolder.process(activeDataPath);
+			hl7v2EngineInvalidTemplateFolder.process(activeDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);
@@ -73,7 +73,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 
 	test('Function process - should throw an error given undefined data path', async () => {
 		try {
-			hl7v2Engine.process(undefined);
+			hl7v2Engine.process(undefined, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);
@@ -82,7 +82,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 
 	test('Function process - should throw an error given empty data', async () => {
 		try {
-			hl7v2Engine.process(emptyDataPath);
+			hl7v2Engine.process(emptyDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);
@@ -117,7 +117,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 
 	test('Function process - should return a json object with OK status given data with .ccda, template and template folder', async () => {
 		assert.strictEqual(false, fs.existsSync(resultFile));
-		ccdaEngine.process(activeDataPath);
+		ccdaEngine.process(activeDataPath, false);
 		assert.strictEqual(true, fs.existsSync(resultFile));
 		const msg = JSON.parse(fs.readFileSync(resultFile).toString());
 		assert.strictEqual('OK', msg.Status);
@@ -125,7 +125,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 	
 	test('Function process - should return a json object with OK status given data with .xml, template and template folder', async () => {
 		assert.strictEqual(false, fs.existsSync(resultFile));
-		ccdaEngine.process(activeDataXmlPath);
+		ccdaEngine.process(activeDataXmlPath, false);
 		assert.strictEqual(true, fs.existsSync(resultFile));
 		const msg = JSON.parse(fs.readFileSync(resultFile).toString());
 		assert.strictEqual('OK', msg.Status);
@@ -133,7 +133,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 	
 	test('Function process - should throw an error given invalid data', async () => {
 		try {
-			ccdaEngine.process(invalidActiveDataPath);
+			ccdaEngine.process(invalidActiveDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);
@@ -143,7 +143,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 	test('Function process - should throw an error given invalid root template', async () => {
 		try {
 			const ccdaEngineInvalidrootTemplate = new FhirConverterEngine(templateFolder, invalidrootTemplate, resultFolder);
-			ccdaEngineInvalidrootTemplate.process(activeDataPath);
+			ccdaEngineInvalidrootTemplate.process(activeDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);
@@ -153,7 +153,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 	test('Function process - should throw an error given invalid template folder', async () => {
 		try {
 			const ccdaEngineInvalidTemplateFolder = new FhirConverterEngine(invalidTemplateFolder, rootTemplate, resultFolder);
-			ccdaEngineInvalidTemplateFolder.process(activeDataPath);
+			ccdaEngineInvalidTemplateFolder.process(activeDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);
@@ -162,7 +162,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 
 	test('Function process - should throw an error given undefined data path', async () => {
 		try {
-			ccdaEngine.process(undefined);
+			ccdaEngine.process(undefined, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);
@@ -171,7 +171,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 
 	test('Function process - should throw an error given empty data', async () => {
 		try {
-			ccdaEngine.process(emptyDataPath);
+			ccdaEngine.process(emptyDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
 			assert.strictEqual(true, true);

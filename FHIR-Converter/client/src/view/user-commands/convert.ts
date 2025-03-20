@@ -15,7 +15,7 @@ import { showDifferentialView } from '../common/editor/show-differential-view';
 import { showResultEditor } from '../common/editor/show-result-editor';
 import { ConverterEngineFactory } from '../../core/converter/converter-factory';
 
-export async function convertCommand() {
+export async function convertCommand(skipValidation: boolean = false) {
 	// Add conversion bar
 	const conversionBar: vscode.StatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
 	conversionBar.text = '$(sync~spin) Converting...';
@@ -41,7 +41,7 @@ export async function convertCommand() {
 		const converter = ConverterEngineFactory.getInstance().createConverter();
 
 		// Execute the conversion process
-		const result = await converter.convert(dataFile);
+		const result = await converter.convert(dataFile, skipValidation);
 
 		// Add trace info to the template
 		const enableUnusedSegmentsDiagnostic = globals.settingManager.getWorkspaceConfiguration(configurationConstants.enableUnusedSegmentsDiagnosticKey);
@@ -79,6 +79,10 @@ export async function convertCommand() {
 			}
 		}
 		await vscode.commands.executeCommand('workbench.action.closeOtherEditors');
+
+		if (result.validationErrorMessage) { 
+			vscode.window.showWarningMessage(localize('message.outputValidationErrorFromEngine') + ' ' + result.validationErrorMessage);			
+		}
 	} finally {
 		// hide the conversion bar
 		conversionBar.hide();
