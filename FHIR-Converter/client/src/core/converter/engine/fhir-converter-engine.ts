@@ -51,7 +51,7 @@ export class FhirConverterEngine implements IConverterEngine {
 			'-t'];
 			
 		if (skipValidation) {
-			paramList.push('-s'); // Add the skip validation flag
+			paramList.push('-a'); // Add the AllowOutputValidationErrors flag
 		}
 		
 		const cmd =  this._engineExecCmd + paramList.join(' ');
