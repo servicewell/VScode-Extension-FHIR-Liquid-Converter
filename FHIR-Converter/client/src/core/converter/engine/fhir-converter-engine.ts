@@ -18,12 +18,14 @@ export class FhirConverterEngine implements IConverterEngine {
 	private _engineExecCmd: string;
 	private _templateFolder: string;
 	private _rootTemplate: string;
+	private _engineFolder: string;
 	private _resultFolder: string;
 
-	constructor(templateFolder: string, rootTemplate: string, resultFolder: string, engineExecCmd: string = engineConstants.DefaultEngineExecCmd) {
+	constructor(templateFolder: string, rootTemplate: string, resultFolder: string, engineFolder: string, engineExecCmd: string = engineConstants.DefaultEngineExecCmd) {
 		this._templateFolder = templateFolder;
 		this._rootTemplate = rootTemplate;
 		this._resultFolder = resultFolder;
+		this._engineFolder = engineFolder;
 		this._engineExecCmd = engineExecCmd;
 	}
 
@@ -37,7 +39,7 @@ export class FhirConverterEngine implements IConverterEngine {
 		if (!fs.existsSync(dataFile)) {
 			throw new ConversionError(localize('message.dataFileNotExists', dataFile));
 		}
-
+		
 		// Call the engine
 		const timestamp = new Date().getTime().toString();
 		const resultFile = path.join(this._resultFolder, stringUtils.getResultFileName(dataFile, this._rootTemplate, timestamp));
@@ -57,14 +59,14 @@ export class FhirConverterEngine implements IConverterEngine {
 		const cmd =  this._engineExecCmd + paramList.join(' ');
 		try {
 			cp.execSync(cmd, {
-				cwd: engineConstants.DefaultEngineFolder,
+				cwd: this._engineFolder,
 				env: { 
 					...process.env, // Preserve existing environment variables
 					RUNNING_FROM_VSCODE: 'true' // Set the new environment variable
 				}
 			});
 		} catch (err) {
-			throw new ConversionError(err.stderr.toString());
+			throw new ConversionError(err.toString());
 		}
 		if (fs.existsSync(defaultResultFile)) {
 			const resultMsg = JSON.parse(fs.readFileSync(defaultResultFile).toString());

@@ -1,17 +1,17 @@
 {
-	"name": "vscode-health-fhir-converter",
-	"publisher": "ms-azuretools",
-	"displayName": "FHIR Converter",
+	"name": "vscode-fhir-liquid-converter",
+	"publisher": "servicewell",
+	"displayName": "FHIR Liquid Converter",
 	"description": "Enables the conversion of legacy formatted health data to FHIR, expanding the use cases for health data and enabling interoperability.",
-	"version": "1.4.3",
+	"version": "1.0.0",
 	"license": "MIT",
 	"preview": true,
-	"homepage": "https://github.com/microsoft/vscode-azurehealthcareapis-tools/blob/main/FHIR-Converter/README.md",
+	"homepage": "https://servicewell.visualstudio.com/swts/_git/vscode-fhir-liquid-converter",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/microsoft/vscode-azurehealthcareapis-tools"
+		"url": "https://servicewell.visualstudio.com/swts/_git/vscode-fhir-liquid-converter"
 	},
-	"icon": "assets/icon.png",
+	"icon": "assets/servicewell_logo_small.png",
 	"galleryBanner": {
 		"color": "#3c3c3c",
 		"theme": "dark"
@@ -39,18 +39,18 @@
 	],
 	"aiKey": "AIF-d9b70cd4-b9f9-4d70-929b-a071c400b217",
 	"activationEvents": [
-		"onCommand:microsoft.health.fhir.converter.convert",
-		"onCommand:microsoft.health.fhir.converter.convertWithoutValidation",
-		"onCommand:microsoft.health.fhir.converter.updateTemplateFolder",
-		"onCommand:microsoft.health.fhir.converter.selectTemplate",
-		"onCommand:microsoft.health.fhir.converter.selectData",
-		"onCommand:microsoft.health.fhir.converter.createConverterWorkspace",
-		"onCommand:microsoft.health.fhir.converter.pullTemplates",
-		"onCommand:microsoft.health.fhir.converter.pullOfficialTemplates",
-		"onCommand:microsoft.health.fhir.converter.pullSampleData",
-		"onCommand:microsoft.health.fhir.converter.pushTemplates",
-		"onCommand:microsoft.health.fhir.converter.loginRegistry",
-		"onCommand:microsoft.health.fhir.converter.logoutRegistry",
+		"onCommand:vscode-fhir-liquid-converter.convert",
+		"onCommand:vscode-fhir-liquid-converter.convertWithoutValidation",
+		"onCommand:vscode-fhir-liquid-converter.updateTemplateFolder",
+		"onCommand:vscode-fhir-liquid-converter.selectTemplate",
+		"onCommand:vscode-fhir-liquid-converter.selectData",
+		"onCommand:vscode-fhir-liquid-converter.createConverterWorkspace",
+		"onCommand:vscode-fhir-liquid-converter.pullTemplates",
+		"onCommand:vscode-fhir-liquid-converter.pullOfficialTemplates",
+		"onCommand:vscode-fhir-liquid-converter.pullSampleData",
+		"onCommand:vscode-fhir-liquid-converter.pushTemplates",
+		"onCommand:vscode-fhir-liquid-converter.loginRegistry",
+		"onCommand:vscode-fhir-liquid-converter.logoutRegistry",
 		"workspaceContains:**/*.liquid"
 	],
 	"main": "./client/out/extension.js",
@@ -63,177 +63,178 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "microsoft.health.fhir.converter.convert",
-				"title": "FHIR Converter: Convert data"
+				"command": "vscode-fhir-liquid-converter.convert",
+				"title": "FHIR Liquid Converter: Convert data"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.convertWithoutValidation",
+				"command": "vscode-fhir-liquid-converter.convertWithoutValidation",
 				"title": "FHIR Converter: Convert data without validation"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.updateTemplateFolder",
+				"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
 				"title": "FHIR Converter: Update template folder"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.selectTemplate",
-				"title": "FHIR Converter: Select as template (*.liquid)"
+				"command": "vscode-fhir-liquid-converter.selectTemplate",
+				"title": "FHIR Liquid Converter: Select as template (*.liquid)"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.selectData",
-				"title": "FHIR Converter: Select as data (*.[hl7|ccda|json|xml])"
+				"command": "vscode-fhir-liquid-converter.selectData",
+				"title": "FHIR Liquid Converter: Select as data (*.[hl7|ccda|json|xml])"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.createConverterWorkspace",
-				"title": "FHIR Converter: Create a converter workspace"
+				"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
+				"title": "FHIR Liquid Converter: Create a converter workspace"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.pullTemplates",
-				"title": "FHIR Converter: Pull custom templates"
+				"command": "vscode-fhir-liquid-converter.pullTemplates",
+				"title": "FHIR Liquid Converter: Pull custom templates"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.pullOfficialTemplates",
-				"title": "FHIR Converter: Pull sample templates"
+				"command": "vscode-fhir-liquid-converter.pullOfficialTemplates",
+				"title": "FHIR Liquid Converter: Pull sample templates"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.pullSampleData",
-				"title": "FHIR Converter: Pull sample data"
+				"command": "vscode-fhir-liquid-converter.pullSampleData",
+				"title": "FHIR Liquid Converter: Pull sample data"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.pushTemplates",
-				"title": "FHIR Converter: Push custom templates"
+				"command": "vscode-fhir-liquid-converter.pushTemplates",
+				"title": "FHIR Liquid Converter: Push custom templates"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.loginRegistry",
-				"title": "FHIR Converter: Login to Azure Container Registry"
+				"command": "vscode-fhir-liquid-converter.loginRegistry",
+				"title": "FHIR Liquid Converter: Login to Azure Container Registry"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.logoutRegistry",
-				"title": "FHIR Converter: Logout from Azure Container Registry"
+				"command": "vscode-fhir-liquid-converter.logoutRegistry",
+				"title": "FHIR Liquid Converter: Logout from Azure Container Registry"
 			}
 		],
 		"menus": {
 			"commandPalette": [
 				{
-					"command": "microsoft.health.fhir.converter.selectTemplate",
+					"command": "vscode-fhir-liquid-converter.selectTemplate",
 					"when": "false"
 				},
 				{
-					"command": "microsoft.health.fhir.converter.selectData",
+					"command": "vscode-fhir-liquid-converter.selectData",
 					"when": "false"
 				}
 			],
 			"explorer/context": [
 				{
-					"command": "microsoft.health.fhir.converter.convert",
+					"command": "vscode-fhir-liquid-converter.convert",
 					"group": "1_converter"
 				},
 				{
-					"command": "microsoft.health.fhir.converter.convertWithoutValidation",
+					"command": "vscode-fhir-liquid-converter.convertWithoutValidation",
 					"group": "1_converter"
 				},
 				{
-					"command": "microsoft.health.fhir.converter.selectTemplate",
+					"command": "vscode-fhir-liquid-converter.selectTemplate",
 					"group": "1_converter",
 					"when": "resourceExtname == .liquid"
 				},
 				{
-					"command": "microsoft.health.fhir.converter.selectData",
+					"command": "vscode-fhir-liquid-converter.selectData",
 					"group": "1_converter",
 					"when": "resourceExtname == .hl7 || resourceExtname == .ccda || resourceExtname == .xml || resourceExtname == .json"
 				}
 			],
 			"editor/context": [
 				{
-					"command": "microsoft.health.fhir.converter.convert",
+					"command": "vscode-fhir-liquid-converter.convert",
 					"group": "1_converter"
 				},
 				{
-					"command": "microsoft.health.fhir.converter.convertWithoutValidation",
+					"command": "vscode-fhir-liquid-converter.convertWithoutValidation",
 					"group": "1_converter"
 				},
 				{
-					"command": "microsoft.health.fhir.converter.updateTemplateFolder",
+					"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
 					"group": "1_converter"
 				},
 				{
-					"command": "microsoft.health.fhir.converter.createConverterWorkspace",
+					"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
 					"group": "1_converter"
 				},
 				{
-					"command": "microsoft.health.fhir.converter.pullTemplates",
+					"command": "vscode-fhir-liquid-converter.pullTemplates",
 					"group": "1_converter"
 				},
 				{
-					"command": "microsoft.health.fhir.converter.pushTemplates",
+					"command": "vscode-fhir-liquid-converter.pushTemplates",
 					"group": "1_converter"
 				}
 			]
 		},
 		"keybindings": [
 			{
-				"command": "microsoft.health.fhir.converter.updateTemplateFolder",
+				"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
 				"key": "Ctrl+U"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.createConverterWorkspace",
+				"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
 				"key": "Ctrl+W"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.convert",
+				"command": "vscode-fhir-liquid-converter.convert",
 				"key": "Ctrl+R"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.convertWithoutValidation",
-				"key": "Ctrl+Y"
-			},
-			{
-				"command": "microsoft.health.fhir.converter.pullTemplates",
+				"command": "vscode-fhir-liquid-converter.pullTemplates",
 				"key": "Ctrl+L"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.pushTemplates",
+				"command": "vscode-fhir-liquid-converter.pushTemplates",
 				"key": "Ctrl+H"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.pullOfficialTemplates",
+				"command": "vscode-fhir-liquid-converter.pullOfficialTemplates",
 				"key": "Ctrl+T"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.pullSampleData",
+				"command": "vscode-fhir-liquid-converter.pullSampleData",
 				"key": "Ctrl+D"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.loginRegistry",
+				"command": "vscode-fhir-liquid-converter.loginRegistry",
 				"key": "Ctrl+I"
 			},
 			{
-				"command": "microsoft.health.fhir.converter.logoutRegistry",
+				"command": "vscode-fhir-liquid-converter.logoutRegistry",
 				"key": "Ctrl+O"
 			}
 		],
 		"configuration": {
 			"type": "object",
-			"title": "FHIR Converter",
+			"title": "FHIR Liquid Converter",
 			"properties": {
-				"microsoft.health.fhir.converter.enableDiffView": {
+				"vscode-fhir-liquid-converter.enableDiffView": {
 					"type": "boolean",
 					"default": "true",
 					"description": "Enable showing the differential view after converting data."
 				},
-				"microsoft.health.fhir.converter.enableUnusedSegmentsDiagnostic": {
+				"vscode-fhir-liquid-converter.enableUnusedSegmentsDiagnostic": {
 					"type": "boolean",
 					"default": "true",
 					"description": "Enable showing the unused segments diagnostic after converting data."
 				},
-				"microsoft.health.fhir.converter.templateFolder": {
+				"vscode-fhir-liquid-converter.templateFolder": {
 					"type": "string",
 					"default": "",
 					"description": "The path to the folder the templates are saved in."
 				},
-				"microsoft.health.fhir.converter.resultFolder": {
+				"vscode-fhir-liquid-converter.resultFolder": {
 					"type": "string",
 					"default": "",
 					"description": "The path to the folder the results are saved in."
+				},
+				"vscode-fhir-liquid-converter.engineFolderPath": {
+					"type": "string",
+					"default": "",
+					"description": "The path to the folder the backend is compiled in."
 				}
 			}
 		}
@@ -247,7 +248,7 @@
 		"test": "npm run compile && node ./client/out/test/runTest.js && node ./server/out/test/runTest.js",
 		"download-templates": "cd test-data && bash download-templates.sh",
 		"download-templates_with_git_bash": "cd test-data && \"C:\\Program Files\\Git\\bin\\bash.exe\" download-templates.sh",
-		"package": "vsce package --githubBranch main --baseContentUrl https://github.com/microsoft/vscode-azurehealthcareapis-tools/tree/main/FHIR-Converter --baseImagesUrl https://raw.githubusercontent.com/microsoft/vscode-azurehealthcareapis-tools/main/FHIR-Converter",
+		"package": "vsce package --baseContentUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\" --baseImagesUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\"",
 		"lint": "tslint --fix client/src/**/*.ts  server/src/**/*.ts"
 	},
 	"devDependencies": {

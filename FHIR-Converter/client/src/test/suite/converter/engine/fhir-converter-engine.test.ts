@@ -8,6 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { FhirConverterEngine } from '../../../../core/converter/engine/fhir-converter-engine';
 import { beforeEach } from 'mocha';
+import { DefaultEngineFolder } from '../../../../core/common/constants/engine';
 
 suite('Hl7v2 Converter Engine Test Suite', () => {
 	const testPath = path.join(__dirname, '../../../../../../test-data');
@@ -20,7 +21,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 	const resultFile = path.join(resultFolder, 'temp.json');
 	const rootTemplate = 'ADT_A01.liquid';
 	const invalidrootTemplate = 'Invalid_template';
-	const hl7v2Engine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder);
+	const hl7v2Engine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder, DefaultEngineFolder);
 
 	beforeEach(() => {
 		if (fs.existsSync(resultFile)) {
@@ -29,7 +30,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 	});
 
 	test('Function constructor - should return a engine', async () => {
-		const engine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder);
+		const engine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder, DefaultEngineFolder);
 		assert.strictEqual(engine instanceof FhirConverterEngine, true);
 	});
 
@@ -53,7 +54,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 	
 	test('Function process - should throw an error given invalid root template', async () => {
 		try {
-			const hl7v2EngineInvalidrootTemplate = new FhirConverterEngine(templateFolder, invalidrootTemplate, resultFolder);
+			const hl7v2EngineInvalidrootTemplate = new FhirConverterEngine(templateFolder, invalidrootTemplate, resultFolder, DefaultEngineFolder);
 			hl7v2EngineInvalidrootTemplate.process(activeDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
@@ -63,7 +64,7 @@ suite('Hl7v2 Converter Engine Test Suite', () => {
 
 	test('Function process - should throw an error given invalid template folder', async () => {
 		try {
-			const hl7v2EngineInvalidTemplateFolder = new FhirConverterEngine(invalidTemplateFolder, rootTemplate, resultFolder);
+			const hl7v2EngineInvalidTemplateFolder = new FhirConverterEngine(invalidTemplateFolder, rootTemplate, resultFolder, DefaultEngineFolder);
 			hl7v2EngineInvalidTemplateFolder.process(activeDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
@@ -102,7 +103,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 	const resultFile = path.join(resultFolder, 'temp.json');
 	const rootTemplate = 'CCD.liquid';
 	const invalidrootTemplate = 'Invalid_template';
-	const ccdaEngine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder);
+	const ccdaEngine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder, DefaultEngineFolder);
 
 	beforeEach(() => {
 		if (fs.existsSync(resultFile)) {
@@ -111,7 +112,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 	});
 
 	test('Function constructor - should return a engine', async () => {
-		const engine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder);
+		const engine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder, DefaultEngineFolder);
 		assert.strictEqual(engine instanceof FhirConverterEngine, true);
 	});
 
@@ -142,7 +143,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 	
 	test('Function process - should throw an error given invalid root template', async () => {
 		try {
-			const ccdaEngineInvalidrootTemplate = new FhirConverterEngine(templateFolder, invalidrootTemplate, resultFolder);
+			const ccdaEngineInvalidrootTemplate = new FhirConverterEngine(templateFolder, invalidrootTemplate, resultFolder, DefaultEngineFolder);
 			ccdaEngineInvalidrootTemplate.process(activeDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {
@@ -152,7 +153,7 @@ suite('CCDA Converter Engine Test Suite', () => {
 
 	test('Function process - should throw an error given invalid template folder', async () => {
 		try {
-			const ccdaEngineInvalidTemplateFolder = new FhirConverterEngine(invalidTemplateFolder, rootTemplate, resultFolder);
+			const ccdaEngineInvalidTemplateFolder = new FhirConverterEngine(invalidTemplateFolder, rootTemplate, resultFolder, DefaultEngineFolder);
 			ccdaEngineInvalidTemplateFolder.process(activeDataPath, false);
 			assert.strictEqual(true, false);
 		} catch (error) {

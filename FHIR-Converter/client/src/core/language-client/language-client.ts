@@ -23,7 +23,7 @@ export function createLanguageClient(context: vscode.ExtensionContext) {
 
 	// Create the language client.
 	return new LanguageClient(
-		'microsoft.health.fhir.converter.languageServer',
+		'vscode-fhir-liquid-converter.languageServer',
 		'FHIR Converter Language Server',
 		serverOptions,
 		clientOptions
