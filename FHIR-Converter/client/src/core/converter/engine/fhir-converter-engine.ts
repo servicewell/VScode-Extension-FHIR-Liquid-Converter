@@ -59,11 +59,7 @@ export class FhirConverterEngine implements IConverterEngine {
 		const cmd =  this._engineExecCmd + paramList.join(' ');
 		try {
 			cp.execSync(cmd, {
-				cwd: this._engineFolder,
-				env: { 
-					...process.env, // Preserve existing environment variables
-					RUNNING_FROM_VSCODE: 'true' // Set the new environment variable
-				}
+				cwd: this._engineFolder
 			});
 		} catch (err) {
 			throw new ConversionError(err.toString());
