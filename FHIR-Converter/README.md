@@ -26,8 +26,8 @@ Follow these steps to set up your workspace correctly:
 
 3. **Choose Template and Data Folders**  
    When prompted, select:
-   - **Template folder** → Contains your FHIR transformation templates.
-   - **Data folder** → Contains your sample input data.
+   - **Template folder** → Template **type** folder, example **Templates/Json**. Contains your FHIR transformation templates.
+   - **Data folder** → Data **type** folder, example **SampleData/Json** Contains your sample input data.
 
    **Example folder structure:**
       ```
@@ -35,7 +35,8 @@ Follow these steps to set up your workspace correctly:
    ├── Templates/Json
    ├── SampleData/Json
    ```
-
+4. **Save the Workspace**  
+   - Save the workspace file, example **json-converter-workspace**.
 
 # Run converter
 
@@ -44,22 +45,16 @@ To run the converter, first make sure the workspace you created above is open.
 ### 1. Select ExamplePatient.json as Data
 - Right click on **ExamplePatient.json** and select as the data file.
 
-![Select Data](docs/images/GettingStarted-SelectAsData.PNG)
-
 ---
 
 ### 2. Select ExamplePatient.liquid as Template
 - Right click on **ExamplePatient.liquid** and select as the template.
-
-![Select Template](docs/images/GettingStarted-SelectAsTemplate.PNG)
 
 ---
 
 ### 3. Run the Converter
 - Execute the conversion process.
 - Right click on **ExamplePatient.liquid** again and click Convert Data
-
-![Run Converter](docs/images/GettingStarted-ConvertData.PNG)
 
 ---
 
@@ -68,8 +63,6 @@ To run the converter, first make sure the workspace you created above is open.
   - **Source data**
   - **Liquid template**
   - **Converted result**
-
-![Converted Result](docs/images/GettingStarted-Result.PNG)
 
 # Debugging
 Read [Developer Guide - Getting Started for Extension Developers](DEVELOPER_GUIDE_DEBUGGING.md) to setup a developer debugging environment
