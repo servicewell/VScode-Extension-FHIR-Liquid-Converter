@@ -1,4 +1,4 @@
-# Getting Started
+# Developer Guide - Getting Started for Extension Developers
 
 ## Prerequisites
 Before setting up the project, ensure you have the following installed:
@@ -51,65 +51,11 @@ Update the following line to match the output folder of the **FHIR Converter Eng
 export const DefaultEngineFolder = "C:\Users\TheoKinell\source\repos\swts\fhir-liquid-converter\src\Microsoft.Health.Fhir.Liquid.Converter.Tool\bin\Debug\net8.0";
 ```
 
-## Start Debugging
+## Start Converting
 
-### 1. Create a Workspace
-To begin debugging, follow these steps to create a workspace:
+See the [README](./README.md) for instructions on how to start using the extension to convert data.
 
-1. **Open the Command Palette**  
-   In VS Code, navigate to:  
-   **View → Command Palette** (`Ctrl + Shift + P`)
 
-2. **Select the FHIR-Converter workspace**  
-   - Search for and select:  
-     **FHIR-Converter: Create Workspace**
+## Build and package VSIX
 
-3. **Choose Data and Template Folders**  
-   - When prompted, select:
-     - **Template folder** → Contains FHIR transformation templates.
-     - **Data folder** → Contains sample input data.
-
-   **Example folders to select:**
-   ```
-   swts/
-   ├── fhir-liquid-converter/data/Templates/Json
-   ├── fhir-liquid-converter/data/SampleData/Json
-   ```
-
-4. **Save the Workspace**  
-   - Save the workspace file inside the `swts` folder.
-
-# Run converter
-
-Follow these steps to run the converter.
-
-**First, launch the client**
-
-### 1. Select ExamplePatient.json as Data
-- Choose **ExamplePatient.json** as the data file.
-
-![Select Data](docs/images/GettingStarted-SelectAsData.PNG)
-
----
-
-### 2. Select ExamplePatient.liquid as Template
-- Choose **ExamplePatient.liquid** as the template.
-
-![Select Template](docs/images/GettingStarted-SelectAsTemplate.PNG)
-
----
-
-### 3. Run the Converter
-- Execute the conversion process.
-
-![Run Converter](docs/images/GettingStarted-ConvertData.PNG)
-
----
-
-### 4. View the Result
-- You should now have three windows open:
-  - **Source data**
-  - **Liquid template**
-  - **Converted result**
-
-![Converted Result](docs/images/GettingStarted-Result.PNG)
+For details on how to build, package and install the extension, see the [Developer Guide - Creating and Installing a VSIX Extension](./DEVELOPER_GUIDE_VSIX_BUILD.md).

@@ -1,7 +1,80 @@
 # Getting Started
-Read [GettingStarted.md](GettingStarted.md) to get a working environment
 
-For details on how to build and install the extension for testing, see the [Installation Guide](./INSTALLATION.md).
+## Start Converting
+
+> **Important:** Make sure you use the command  
+> **`FHIR Liquid Converter: Create a converter workspace`**  
+> *(provided by the Servicewell 'FHIR Liquid Converter' extension)*  
+> — **NOT**  
+> **`FHIR Converter: Create Workspace`**  
+> *(which comes from Microsoft's 'FHIR Converter' extension and is **not compatible**).*
+
+Creating the correct workspace is **essential** for the extension to function properly.
+
+### 1. Create a Workspace
+
+Follow these steps to set up your workspace correctly:
+
+1. **Open the Command Palette**  
+   In VS Code:  
+   `View → Command Palette` (`Ctrl + Shift + P`)
+
+2. **Run the Correct Command**  
+   Search for and select:  
+   **FHIR Liquid Converter: Create a converter workspace**  
+   *(Do NOT use Microsoft's similar-looking command.)*
+
+3. **Choose Template and Data Folders**  
+   When prompted, select:
+   - **Template folder** → Contains your FHIR transformation templates.
+   - **Data folder** → Contains your sample input data.
+
+   **Example folder structure:**
+      ```
+   data/
+   ├── Templates/Json
+   ├── SampleData/Json
+   ```
+
+
+# Run converter
+
+To run the converter, first make sure the workspace you created above is open.
+
+### 1. Select ExamplePatient.json as Data
+- Right click on **ExamplePatient.json** and select as the data file.
+
+![Select Data](docs/images/GettingStarted-SelectAsData.PNG)
+
+---
+
+### 2. Select ExamplePatient.liquid as Template
+- Right click on **ExamplePatient.liquid** and select as the template.
+
+![Select Template](docs/images/GettingStarted-SelectAsTemplate.PNG)
+
+---
+
+### 3. Run the Converter
+- Execute the conversion process.
+- Right click on **ExamplePatient.liquid** again and click Convert Data
+
+![Run Converter](docs/images/GettingStarted-ConvertData.PNG)
+
+---
+
+### 4. View the Result
+- You should now have three windows open:
+  - **Source data**
+  - **Liquid template**
+  - **Converted result**
+
+![Converted Result](docs/images/GettingStarted-Result.PNG)
+
+# Debugging
+Read [Developer Guide - Getting Started for Extension Developers](DEVELOPER_GUIDE_DEBUGGING.md) to setup a developer debugging environment
+
+
 # FHIR Converter VS Code extension
 
 [![Build Status](https://microsofthealth.visualstudio.com/Health/_apis/build/status/Resolute/Converter/Dev-CI-SecurityAssessment-VSCode-Tools?branchName=main)](https://microsofthealth.visualstudio.com/Health/_build/latest?definitionId=531&branchName=main)

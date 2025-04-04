@@ -1,4 +1,4 @@
-# Creating and Installing a VSIX Extension in Visual Studio Code
+# Developer Guide - Creating and Installing a VSIX Extension in Visual Studio Code
 
 This guide walks you through how to package a Visual Studio Code extension into a `.vsix` file and install it manually.
 

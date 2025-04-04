@@ -68,11 +68,11 @@
 			},
 			{
 				"command": "vscode-fhir-liquid-converter.convertWithoutValidation",
-				"title": "FHIR Converter: Convert data without validation"
+				"title": "FHIR Liquid Converter: Convert data without validation"
 			},
 			{
 				"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
-				"title": "FHIR Converter: Update template folder"
+				"title": "FHIR Liquid Converter: Update template folder"
 			},
 			{
 				"command": "vscode-fhir-liquid-converter.selectTemplate",
