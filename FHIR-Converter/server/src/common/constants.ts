@@ -4,7 +4,7 @@
  */
 
 // Configuration
-export const ConfigurationSection = 'microsoft.health.fhir.converter';
+export const ConfigurationSection = 'vscode-fhir-liquid-converter';
 export const ConfigurationTemplateFolderKey = 'templateFolder';
 
 // Engine

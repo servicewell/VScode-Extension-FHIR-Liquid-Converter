@@ -1,13 +1,13 @@
 {
-	"name": "vscode-health-fhir-converter-client",
-	"publisher": "ms-azuretools",
-	"description": "Language client for FHIR Converter",
-	"version": "1.2.0",
+	"name": "vscode-fhir-liquid-converter-client",
+	"publisher": "servicewell",
+	"description": "Language client for FHIR  Liquid Converter",
+	"version": "1.0.0",
 	"license": "MIT",
 	"preview": true,
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/microsoft/vscode-azurehealthcareapis-tools"
+		"url": "https://servicewell.visualstudio.com/swts/_git/vscode-fhir-liquid-converter"
 	},
 	"engines": {
 		"vscode": "^1.44.0"

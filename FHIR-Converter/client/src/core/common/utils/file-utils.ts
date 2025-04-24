@@ -13,6 +13,12 @@ export function writeJsonToFile(filePath: string, msg: object) {
 	return flag;
 }
 
+export function writeInvalidJsonToFile(filePath: string, msg: string) {
+	const flag = checkCreateFolders(path.dirname(filePath));
+	fs.writeFileSync(filePath, msg);
+	return flag;
+}
+
 export function checkCreateFolders(resultFolder: string) {
 	if (!fs.existsSync(resultFolder)) {
 		fs.mkdirSync(resultFolder, { recursive: true });

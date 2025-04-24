@@ -8,3 +8,8 @@ import { Status } from '../enum/status';
 export function checkConversionSuccess(msg: any) {
 	return msg.Status === Status.OK;
 }
+
+
+export function checkConversionHasValidationError(msg: any) {
+	return msg.Status === Status.OutputValidationError;
+}

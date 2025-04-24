@@ -4,5 +4,5 @@
  */
 
 export interface IConverterEngine {
-	process(dataFile: string): any;
+	process(dataFile: string, skipValidation: boolean): any;
 }

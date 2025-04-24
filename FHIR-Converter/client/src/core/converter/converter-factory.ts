@@ -12,6 +12,7 @@ import { ConversionError} from '../common/errors/conversion-error';
 import { ConfigurationError } from '../common/errors/configuration-error';
 import { globals } from '../globals';
 import * as fs from 'fs';
+import { DefaultEngineFolder } from '../common/constants/engine';
 
 export class ConverterEngineFactory {
 	private static _instance = new ConverterEngineFactory();
@@ -50,8 +51,17 @@ export class ConverterEngineFactory {
 			throw new ConversionError(localize('message.needSelectTemplate'));
 		}
 
+		let engineFolder: string = globals.settingManager.getWorkspaceConfiguration(configurationConstants.EngineFolderPathKey);
+		if (!engineFolder || !fs.existsSync(engineFolder))
+			engineFolder = DefaultEngineFolder;
+
+		// Check if engine folder exists
+		if (!fs.existsSync(engineFolder)){
+			throw new ConversionError(localize('message.invalidBackendPath', engineFolder))
+		}
+
 		// create the engine
-		let engine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder);
+		let engine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder, engineFolder);
 
 		// create the converter
 		return new Converter(engine, resultFolder);
