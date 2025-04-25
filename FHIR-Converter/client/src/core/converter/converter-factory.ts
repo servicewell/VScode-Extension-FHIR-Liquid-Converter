@@ -35,7 +35,7 @@ export class ConverterEngineFactory {
 		}
 
 		// Check that the template folder is available
-		const templateFolder: string = globals.settingManager.getWorkspaceConfiguration(configurationConstants.TemplateFolderKey);
+		const templateFolder: string = globals.settingManager.getWorkspaceState(configurationConstants.TemplateFolderKey);
 		if (!templateFolder) {
 			throw new ConfigurationError(localize('message.noTemplateFolderProvided'));
 		}

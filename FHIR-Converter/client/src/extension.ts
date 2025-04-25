@@ -8,6 +8,7 @@ import { createLanguageClient } from './core/language-client/language-client';
 import { globals } from './core/globals';
 import localize from './i18n/localize';
 import * as path from 'path';
+import * as fs from 'fs';
 import * as stringUtils from './core/common/utils/string-utils';
 import * as configurationConstants from './core/common/constants/workspace-configuration';
 import * as vscode from 'vscode';
@@ -41,32 +42,29 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Init setting manager
 	globals.settingManager = new SettingManager(context, configurationConstants.ConfigurationSection);
 
-	// Init workspace
-	if (converterWorkspaceExists(configurationConstants.WorkspaceFileExtension)) {
-		// Set status bar
-		setStatusBar();
+	// Set status bar
+	setStatusBar();
 
-		// Init default result folder
-		let resultFolder: string = globals.settingManager.getWorkspaceConfiguration(configurationConstants.ResultFolderKey);
-		if (!resultFolder) {
-			resultFolder = path.join(globals.settingManager.context.storagePath, configurationConstants.DefaultResultFolderName);
-			checkCreateFolders(resultFolder);
-			await globals.settingManager.updateWorkspaceConfiguration(configurationConstants.ResultFolderKey, resultFolder);
-		}
-
-		// update template folder to workspace folder for showing the template folder in the explorer
-		updateTemplateFolderToWorkspaceFolder();
-		vscode.workspace.onDidChangeConfiguration(async () => {
-			updateTemplateFolderToWorkspaceFolder();
-		});
-
-		// Start the client. This will also launch the server
-		client = createLanguageClient(context);
-		client.start();
+	// Init default result folder
+	let resultFolder: string = globals.settingManager.getWorkspaceConfiguration(configurationConstants.ResultFolderKey);
+	if (!resultFolder) {
+		resultFolder = path.join(globals.settingManager.context.storagePath, configurationConstants.DefaultResultFolderName);
+		checkCreateFolders(resultFolder);
+		await globals.settingManager.updateWorkspaceConfiguration(configurationConstants.ResultFolderKey, resultFolder);
 	}
 
+	// update template folder to workspace folder for showing the template folder in the explorer
+	updateTemplateFolderToWorkspaceFolder();
+	vscode.workspace.onDidChangeConfiguration(async () => {
+		updateTemplateFolderToWorkspaceFolder();
+	});
+
+	// Start the client. This will also launch the server
+	client = createLanguageClient(context);
+	client.start();
+
 	// Register commands
-	registerCommand(context, 'vscode-fhir-liquid-converter.createConverterWorkspace', createConverterWorkspaceCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.createConverterWorkspace', () => { throw new Error("Not implemented"); createConverterWorkspaceCommand(); } );
 
 	registerCommand(context, 'vscode-fhir-liquid-converter.convert', () => convertCommand(false)); // Normal conversion
 	
@@ -78,20 +76,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	registerCommand(context, 'vscode-fhir-liquid-converter.updateTemplateFolder', updateTemplateFolderCommand);
 
-	registerCommand(context, 'vscode-fhir-liquid-converter.pullOfficialTemplates', pullOfficialTemplatesCommand);
-
-	registerCommand(context, 'vscode-fhir-liquid-converter.pullSampleData', pullSampleDataCommand);
-
-	registerCommand(context, 'vscode-fhir-liquid-converter.pullTemplates', pullTemplatesCommand);
-
-	registerCommand(context, 'vscode-fhir-liquid-converter.pushTemplates', pushTemplatesCommand);
-
-	registerCommand(context, 'vscode-fhir-liquid-converter.loginRegistry', loginRegistryCommand);
-
-	registerCommand(context, 'vscode-fhir-liquid-converter.logoutRegistry', logoutRegistryCommand);
-
 	registerCommand(context, 'vscode-fhir-liquid-converter.convertFhirToFsh', convertFhirToFshCommand);
-
 	// Extract Oras
 	PlatformHandler.getInstance().extractOras();
 }
@@ -105,15 +90,10 @@ export function deactivate(context: vscode.ExtensionContext): Thenable<void> | u
 }
 
 function updateTemplateFolderToWorkspaceFolder() {
-	const templateFolder: string = globals.settingManager.getWorkspaceConfiguration(configurationConstants.TemplateFolderKey);
-	if (templateFolder) {
-		const folders = vscode.workspace.workspaceFolders;
-		const folderName = stringUtils.generatePrettyFolderName(templateFolder, localize('common.templateFolder.suffix'));
-		if (!folders) {
-			vscode.workspace.updateWorkspaceFolders(0, null, {uri: vscode.Uri.file(templateFolder), name: folderName});
-		} else {
-			vscode.workspace.updateWorkspaceFolders(0, 1, {uri: vscode.Uri.file(templateFolder), name: folderName});
-		}
+	const workspacePath: string | undefined = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
+	const templateFolder: string | undefined = workspacePath ? path.join(workspacePath, 'input/flc') : undefined;
+	if (templateFolder && fs.existsSync(templateFolder)) {
+		globals.settingManager.updateWorkspaceState(configurationConstants.TemplateFolderKey, templateFolder);
 	} else {
 		throw new ConfigurationError(localize('message.noTemplateFolderProvided'));
 	}

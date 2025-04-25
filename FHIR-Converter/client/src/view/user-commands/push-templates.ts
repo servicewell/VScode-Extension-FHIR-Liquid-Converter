@@ -27,7 +27,7 @@ export async function pushTemplatesCommand() {
 		}
 
 		// Get the template folder
-		const templateFolder = globals.settingManager.getWorkspaceConfiguration(workspaceConfigurationConstants.TemplateFolderKey);
+		const templateFolder = globals.settingManager.getWorkspaceState(workspaceConfigurationConstants.TemplateFolderKey);
 
 		// Confirm the template folder
 		const selectedTemplateFolder = await interaction.openDialogSelectFolder(localize('message.selectRootTemplateFolder'), templateFolder);

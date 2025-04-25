@@ -42,12 +42,6 @@
 		"onCommand:vscode-fhir-liquid-converter.selectTemplate",
 		"onCommand:vscode-fhir-liquid-converter.selectData",
 		"onCommand:vscode-fhir-liquid-converter.createConverterWorkspace",
-		"onCommand:vscode-fhir-liquid-converter.pullTemplates",
-		"onCommand:vscode-fhir-liquid-converter.pullOfficialTemplates",
-		"onCommand:vscode-fhir-liquid-converter.pullSampleData",
-		"onCommand:vscode-fhir-liquid-converter.pushTemplates",
-		"onCommand:vscode-fhir-liquid-converter.loginRegistry",
-		"onCommand:vscode-fhir-liquid-converter.logoutRegistry",
 		"workspaceContains:**/*.liquid"
 	],
 	"main": "./client/out/extension.js",
@@ -86,30 +80,6 @@
 			{
 				"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
 				"title": "FHIR Liquid Converter: Create a converter workspace"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.pullTemplates",
-				"title": "FHIR Liquid Converter: Pull custom templates"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.pullOfficialTemplates",
-				"title": "FHIR Liquid Converter: Pull sample templates"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.pullSampleData",
-				"title": "FHIR Liquid Converter: Pull sample data"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.pushTemplates",
-				"title": "FHIR Liquid Converter: Push custom templates"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.loginRegistry",
-				"title": "FHIR Liquid Converter: Login to Azure Container Registry"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.logoutRegistry",
-				"title": "FHIR Liquid Converter: Logout from Azure Container Registry"
 			}
 		],
 		"menus": {
@@ -169,14 +139,6 @@
 				{
 					"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
 					"group": "1_converter"
-				},
-				{
-					"command": "vscode-fhir-liquid-converter.pullTemplates",
-					"group": "1_converter"
-				},
-				{
-					"command": "vscode-fhir-liquid-converter.pushTemplates",
-					"group": "1_converter"
 				}
 			]
 		},
@@ -192,30 +154,6 @@
 			{
 				"command": "vscode-fhir-liquid-converter.convert",
 				"key": "Ctrl+R"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.pullTemplates",
-				"key": "Ctrl+L"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.pushTemplates",
-				"key": "Ctrl+H"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.pullOfficialTemplates",
-				"key": "Ctrl+T"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.pullSampleData",
-				"key": "Ctrl+D"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.loginRegistry",
-				"key": "Ctrl+I"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.logoutRegistry",
-				"key": "Ctrl+O"
 			}
 		],
 		"configuration": {
