@@ -5,5 +5,6 @@
 
 export enum Status { 
 	Fail = 'Fail', 
-	OK = 'OK' 
+	OK = 'OK' ,
+	OutputValidationError = 'OutputValidationError'
 }

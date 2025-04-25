@@ -6,7 +6,7 @@
 import * as vscode from 'vscode';
 import localize from '../../../i18n/localize';
 
-export const diagnosticsCollection = vscode.languages.createDiagnosticCollection('vscode-health-fhir-converter.unusedSegments');
+export const diagnosticsCollection = vscode.languages.createDiagnosticCollection('vscode-fhir-liquid-converter.unusedSegments');
 
 interface IDiagnosticComponent {
 	range: vscode.Range;

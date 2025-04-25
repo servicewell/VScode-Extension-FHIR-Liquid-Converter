@@ -8,6 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Converter } from '../../../core/converter/converter';
 import { FhirConverterEngine } from '../../../core/converter/engine/fhir-converter-engine';
+import { DefaultEngineFolder } from '../../../core/common/constants/engine';
 
 suite('Converter Test Suite', () => {
 	const testPath = path.join(__dirname, '../../../../../test-data');
@@ -16,7 +17,7 @@ suite('Converter Test Suite', () => {
 	const activeDataPath = path.join(testPath, 'data/Hl7v2/ADT01-23.hl7');
 	const templateFolder = path.join(testPath, 'templates/Hl7v2');
 	const rootTemplate = 'ADT_A01';
-	const fhirConverterEngine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder);
+	const fhirConverterEngine = new FhirConverterEngine(templateFolder, rootTemplate, resultFolder, DefaultEngineFolder);
 	const converter = new Converter(fhirConverterEngine, historyFolder);
 
 	test('Function constructor - should return a converter given a engine and a result folder', async () => {

@@ -1,3 +1,88 @@
+> ### ⚠️ **General Notice**  
+> This is a **Service Well AB maintained fork** of the [original Microsoft FHIR Converter VS Code Extension](https://github.com/microsoft/vscode-azurehealthcareapis-tools).  
+> All modifications in this repository are made by **Service Well AB** and are licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).  
+> This fork includes additional functionality and tools that may not be compatible with the upstream version.  
+> For questions, contributions, or support, please contact us via GitHub or reach out directly to Service Well AB.
+
+<br/>
+
+> ### 📄 **Licensing Notice**  
+> This repository contains:
+> - Original Microsoft code under the MIT License ([LICENSE-MICROSOFT](./LICENSE-MICROSOFT))  
+> - Service Well AB modifications licensed under Apache 2.0 ([LICENSE](./LICENSE)) 
+
+<br/>
+
+# Getting Started
+
+## Start Converting
+
+> **Important:** Make sure you use the command  
+> **`FHIR Liquid Converter: Create a converter workspace`**  
+> *(provided by the Servicewell 'FHIR Liquid Converter' extension)*  
+> — **NOT**  
+> **`FHIR Converter: Create Workspace`**  
+> *(which comes from Microsoft's 'FHIR Converter' extension and is **not compatible**).*
+
+Creating the correct workspace is **essential** for the extension to function properly.
+
+### 1. Create a Workspace
+
+Follow these steps to set up your workspace correctly:
+
+1. **Open the Command Palette**  
+   In VS Code:  
+   `View → Command Palette` (`Ctrl + Shift + P`)
+
+2. **Run the Correct Command**  
+   Search for and select:  
+   **FHIR Liquid Converter: Create a converter workspace**  
+   *(Do NOT use Microsoft's similar-looking command.)*
+
+3. **Choose Template and Data Folders**  
+   When prompted, select:
+   - **Template folder** → Template **type** folder, example **Templates/Json**. Contains your FHIR transformation templates.
+   - **Data folder** → Data **type** folder, example **SampleData/Json** Contains your sample input data.
+
+   **Example folder structure:**
+      ```
+   data/
+   ├── Templates/Json
+   ├── SampleData/Json
+   ```
+4. **Save the Workspace**  
+   - Save the workspace file, example **json-converter-workspace**.
+
+# Run converter
+
+To run the converter, first make sure the workspace you created above is open.
+
+### 1. Select ExamplePatient.json as Data
+- Right click on **ExamplePatient.json** and select as the data file.
+
+---
+
+### 2. Select ExamplePatient.liquid as Template
+- Right click on **ExamplePatient.liquid** and select as the template.
+
+---
+
+### 3. Run the Converter
+- Execute the conversion process.
+- Right click on **ExamplePatient.liquid** again and click Convert Data
+
+---
+
+### 4. View the Result
+- You should now have three windows open:
+  - **Source data**
+  - **Liquid template**
+  - **Converted result**
+
+# Debugging
+Read [Developer Guide - Getting Started for Extension Developers](DEVELOPER_GUIDE_DEBUGGING.md) to setup a developer debugging environment
+
+
 # FHIR Converter VS Code extension
 
 [![Build Status](https://microsofthealth.visualstudio.com/Health/_apis/build/status/Resolute/Converter/Dev-CI-SecurityAssessment-VSCode-Tools?branchName=main)](https://microsofthealth.visualstudio.com/Health/_build/latest?definitionId=531&branchName=main)
@@ -108,13 +193,13 @@ To select a file as the root template file, right click on the file having exten
 
 Both template file and data file are necessary, and you can view the selected files in the status bar before converting Data. If one of them is missing, you will be prompted to select the missing one. If both template file and data file are selected, you can convert data by selecting the context menu item `FHIR Converter: Convert data` or using the keyboard shortcut (`Ctrl + R`), and the result will be shown in results pane.
 
-After converting data, the data segments not used in the FHIR results will be underlined in the data pane. If you don't need this feature, you can deselect the option called `Enable Unused Segments Diagnostic` in `Preferences > Settings > Workspace > Extensions > FHIR Converter` or add a setting `"microsoft.health.fhir.converter.enableUnusedSegmentsDiagnostic": false` in the workspace setting file.
+After converting data, the data segments not used in the FHIR results will be underlined in the data pane. If you don't need this feature, you can deselect the option called `Enable Unused Segments Diagnostic` in `Preferences > Settings > Workspace > Extensions > FHIR Converter` or add a setting `"vscode-fhir-liquid-converter.enableUnusedSegmentsDiagnostic": false` in the workspace setting file.
 
 ![conversion](assets/conversion.gif)
 
 ### 7. Modify the selected data and templates
 
-After modifying the template files or the data files, you can convert data by selecting the context menu item `FHIR Converter: Convert data` or pressing the keyboard shortcut (`Ctrl + R`). A differential view for the conversion result will be shown in the result tab highlighting the differences from the last run. You can jump to the previous or the next changes using the icons in the upper right corner. Differential view is turned on by default, and if you don't need this feature, you can deselect the option called `Enable Diff View` in `Preferences > Settings > Workspace > Extensions > FHIR Converter` or add a setting `"microsoft.health.fhir.converter.enableDiffView": false` in the workspace setting file.
+After modifying the template files or the data files, you can convert data by selecting the context menu item `FHIR Converter: Convert data` or pressing the keyboard shortcut (`Ctrl + R`). A differential view for the conversion result will be shown in the result tab highlighting the differences from the last run. You can jump to the previous or the next changes using the icons in the upper right corner. Differential view is turned on by default, and if you don't need this feature, you can deselect the option called `Enable Diff View` in `Preferences > Settings > Workspace > Extensions > FHIR Converter` or add a setting `"vscode-fhir-liquid-converter.enableDiffView": false` in the workspace setting file.
 
 After modifying the templates or data, remember to save the template files or data because the templates and data on the file system are used during the conversion process. If there are some unsaved templates or data, the user will be prompted to save these unsaved templates or data.
 

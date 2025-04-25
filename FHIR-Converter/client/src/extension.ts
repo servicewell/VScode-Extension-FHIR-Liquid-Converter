@@ -65,27 +65,29 @@ export async function activate(context: vscode.ExtensionContext) {
 	}
 
 	// Register commands
-	registerCommand(context, 'microsoft.health.fhir.converter.createConverterWorkspace', createConverterWorkspaceCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.createConverterWorkspace', createConverterWorkspaceCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.convert', convertCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.convert', () => convertCommand(false)); // Normal conversion
+	
+	registerCommand(context, 'vscode-fhir-liquid-converter.convertWithoutValidation', () => convertCommand(true)); // Without validation
 
-	registerCommand(context, 'microsoft.health.fhir.converter.selectData', selectDataCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.selectData', selectDataCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.selectTemplate', selectTemplateCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.selectTemplate', selectTemplateCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.updateTemplateFolder', updateTemplateFolderCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.updateTemplateFolder', updateTemplateFolderCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.pullOfficialTemplates', pullOfficialTemplatesCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.pullOfficialTemplates', pullOfficialTemplatesCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.pullSampleData', pullSampleDataCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.pullSampleData', pullSampleDataCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.pullTemplates', pullTemplatesCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.pullTemplates', pullTemplatesCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.pushTemplates', pushTemplatesCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.pushTemplates', pushTemplatesCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.loginRegistry', loginRegistryCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.loginRegistry', loginRegistryCommand);
 
-	registerCommand(context, 'microsoft.health.fhir.converter.logoutRegistry', logoutRegistryCommand);
+	registerCommand(context, 'vscode-fhir-liquid-converter.logoutRegistry', logoutRegistryCommand);
 
 	// Extract Oras
 	PlatformHandler.getInstance().extractOras();

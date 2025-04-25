@@ -92,7 +92,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 					end: textDocument.positionAt(m.index + m[0].length)
 				},
 				message: localize('message.invalidTemplate', partialTemplate, templateFolder.replace(/\\/g, '/')),
-				source: localize('microsoft.health.fhir.converter.configuration.title')
+				source: localize('vscode-fhir-liquid-converter.configuration.title')
 			};
 
 			diagnostics.push(diagnostic);

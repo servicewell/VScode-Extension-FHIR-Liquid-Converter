@@ -18,9 +18,9 @@ export class Converter {
 		this._resultFolder = resultFolder;
 	}
 
-	async convert(dataFile: string) {
-		const result = this._engine.process(dataFile);
-		await this.clearHistory(result.resultFile);
+	async convert(dataFile: string, skipValidation: boolean = false) {
+		const result = this._engine.process(dataFile, skipValidation);
+		await this.clearHistory(result.resultFile);		
 		return result;
 	}
 
