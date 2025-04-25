@@ -9,10 +9,7 @@
 			"runtimeExecutable": "${execPath}",
 			"args": ["--extensionDevelopmentPath=${workspaceRoot}"],
 			"outFiles": ["${workspaceRoot}/client/out/**/*.js"],
-			"preLaunchTask": {
-				"type": "npm",
-				"script": "compile"
-			}
+			"preLaunchTask": "npm: compile"
 		},
 		{
 			"name": "Extension Client Tests",
@@ -25,10 +22,7 @@
 				"--extensionTestsPath=${workspaceRoot}/client/out/test/suite/index"
 			],
 			"outFiles": ["${workspaceRoot}/client/out/test/**/*.js"],
-			"preLaunchTask": {
-				"type": "npm",
-				"script": "compile"
-			}
+			"preLaunchTask": "npm: compile"
 		},
 		{
 			"name": "Extension Server Tests",
@@ -41,10 +35,7 @@
 				"--extensionTestsPath=${workspaceRoot}/server/out/test/suite/index"
 			],
 			"outFiles": ["${workspaceRoot}/server/out/test/**/*.js"],
-			"preLaunchTask": {
-				"type": "npm",
-				"script": "compile"
-			}
+			"preLaunchTask": "npm: compile"
 		}
 	]
 }

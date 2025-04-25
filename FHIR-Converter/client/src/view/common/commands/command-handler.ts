@@ -21,10 +21,6 @@ export async function commandHandler(event) {
 			throw new ConversionError(localize('message.osNotSupported'));
 		}
 		
-		// Check if converter workspace exists
-		if (commandsNeedWorkspace.includes(this.name) && !converterWorkspaceExists(configurationConstants.WorkspaceFileExtension)) {
-			throw new ConfigurationError(localize('message.needCreateWorkspace'));
-		}
 
 		// Execute the command
 		const startTime = new Date().getTime();

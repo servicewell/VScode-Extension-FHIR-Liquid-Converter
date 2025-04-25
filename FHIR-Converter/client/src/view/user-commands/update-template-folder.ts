@@ -17,5 +17,5 @@ export async function updateTemplateFolderCommand() {
 	}
 
 	// Update the configuration
-	await globals.settingManager.updateWorkspaceConfiguration(configurationConstants.TemplateFolderKey, templateFolder.fsPath);
+	await globals.settingManager.updateWorkspaceState(configurationConstants.TemplateFolderKey, templateFolder.fsPath);
 }
