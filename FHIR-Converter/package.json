@@ -16,7 +16,7 @@
 		"color": "#3c3c3c",
 		"theme": "dark"
 	},
-	"enableProposedApi": true,
+	"enabledProposedApi": true,
 	"categories": [
 		"Azure",
 		"Other"
@@ -66,6 +66,10 @@
 			{
 				"command": "vscode-fhir-liquid-converter.convertWithoutValidation",
 				"title": "FHIR Liquid Converter: Convert data without validation"
+			},
+			{
+				"command": "vscode-fhir-liquid-converter.convertFhirToFsh",
+				"title": "FHIR Liquid Converter: Convert to FSH"
 			},
 			{
 				"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
@@ -129,6 +133,11 @@
 					"group": "1_converter"
 				},
 				{
+					"command": "vscode-fhir-liquid-converter.convertFhirToFsh",
+					"group": "1_converter",
+					"when": "resourceExtname == .json"
+				},
+				{
 					"command": "vscode-fhir-liquid-converter.selectTemplate",
 					"group": "1_converter",
 					"when": "resourceExtname == .liquid"
@@ -147,6 +156,11 @@
 				{
 					"command": "vscode-fhir-liquid-converter.convertWithoutValidation",
 					"group": "1_converter"
+				},
+				{
+					"command": "vscode-fhir-liquid-converter.convertFhirToFsh",
+					"group": "1_converter",
+					"when": "resourceExtname == .json"
 				},
 				{
 					"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
@@ -267,6 +281,7 @@
 		"typescript": "5.8.3"
 	},
 	"dependencies": {
+		"gofsh": "2.5.1",
 		"vscode-languageserver": "6.1.1",
 		"vscode-languageserver-protocol": "3.15.3"
 	},

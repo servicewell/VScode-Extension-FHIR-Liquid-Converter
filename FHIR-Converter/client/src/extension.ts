@@ -22,6 +22,7 @@ import { pullOfficialTemplatesCommand } from  './view/user-commands/pull-officia
 import { pushTemplatesCommand } from  './view/user-commands/push-templates';
 import { loginRegistryCommand } from  './view/user-commands/login-registry';
 import { logoutRegistryCommand } from  './view/user-commands/logout-registry';
+import { convertFhirToFshCommand } from  './view/user-commands/convert-fhirtofsh';
 import { registerCommand } from './view/common/commands/register-command';
 import { SettingManager } from './core/settings/settings-manager';
 import { setStatusBar } from './view/common/status-bar/set-status-bar';
@@ -88,6 +89,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	registerCommand(context, 'vscode-fhir-liquid-converter.loginRegistry', loginRegistryCommand);
 
 	registerCommand(context, 'vscode-fhir-liquid-converter.logoutRegistry', logoutRegistryCommand);
+
+	registerCommand(context, 'vscode-fhir-liquid-converter.convertFhirToFsh', convertFhirToFshCommand);
 
 	// Extract Oras
 	PlatformHandler.getInstance().extractOras();
