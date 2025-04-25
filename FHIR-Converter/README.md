@@ -1,3 +1,18 @@
+> ### ⚠️ **General Notice**  
+> This is a **Service Well AB maintained fork** of the [original Microsoft FHIR Converter VS Code Extension](https://github.com/microsoft/vscode-azurehealthcareapis-tools).  
+> All modifications in this repository are made by **Service Well AB** and are licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).  
+> This fork includes additional functionality and tools that may not be compatible with the upstream version.  
+> For questions, contributions, or support, please contact us via GitHub or reach out directly to Service Well AB.
+
+<br/>
+
+> ### 📄 **Licensing Notice**  
+> This repository contains:
+> - Original Microsoft code under the MIT License ([LICENSE-MICROSOFT](./LICENSE-MICROSOFT))  
+> - Service Well AB modifications licensed under Apache 2.0 ([LICENSE](./LICENSE)) 
+
+<br/>
+
 # Getting Started
 
 ## Start Converting

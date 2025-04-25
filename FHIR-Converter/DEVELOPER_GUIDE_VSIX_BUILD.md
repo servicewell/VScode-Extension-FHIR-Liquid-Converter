@@ -1,3 +1,11 @@
+> ### ⚠️ **Notice**  
+> This is a **Service Well AB maintained fork** of the [original Microsoft FHIR Converter VS Code Extension](https://github.com/microsoft/vscode-azurehealthcareapis-tools).  
+> All modifications in this repository are made by **Service Well AB** and are licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).  
+> This fork includes additional functionality and tools that may not be compatible with the upstream version.  
+> For questions, contributions, or support, please contact us via GitHub or reach out directly to Service Well AB.
+
+<br/>
+
 # Developer Guide - Creating and Installing a VSIX Extension in Visual Studio Code
 
 This guide walks you through how to package a Visual Studio Code extension into a `.vsix` file and install it manually.
