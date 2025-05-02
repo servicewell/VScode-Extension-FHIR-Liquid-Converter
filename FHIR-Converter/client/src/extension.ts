@@ -91,7 +91,7 @@ export function deactivate(context: vscode.ExtensionContext): Thenable<void> | u
 
 function updateTemplateFolderToWorkspaceFolder() {
 	const workspacePath: string | undefined = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
-	const templateFolder: string | undefined = workspacePath ? path.join(workspacePath, 'input/flc') : undefined;
+	const templateFolder: string | undefined = workspacePath ? path.join(workspacePath, 'input/flc/templates') : undefined;
 	if (templateFolder && fs.existsSync(templateFolder)) {
 		globals.settingManager.updateWorkspaceState(configurationConstants.TemplateFolderKey, templateFolder);
 	} else {
