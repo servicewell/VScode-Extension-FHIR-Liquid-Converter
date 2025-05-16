@@ -20,6 +20,19 @@
 	  "glob": "7.1.4",
 	  "vscode-extension-telemetry": "0.1.6",
 	  "vscode-languageclient": "6.1.1",
-	  "vscode-languageserver-protocol": "3.15.3"
+	  "vscode-languageserver-protocol": "3.15.3",
+	  "gofsh": "^2.5.1"
+	},
+	"main": "./dist/extension.js",
+	"activationEvents": [
+	"onStartupFinished"
+	],
+	"contributes": {
+	"commands": [
+		{
+		"command": "extension.startFLC",
+		"title": "Start FHIR Liquid Client"
+		}
+	]
 	}
   }

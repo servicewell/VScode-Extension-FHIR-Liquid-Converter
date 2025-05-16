@@ -1,0 +1,41 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+	  {
+		"type": "extensionHost",
+		"request": "launch",
+		"name": "Launch Client",
+		"runtimeExecutable": "${execPath}",
+		"args": ["--extensionDevelopmentPath=${workspaceFolder}/FHIR-Converter"],
+		"outFiles": ["${workspaceFolder}/FHIR-Converter/client/out/**/*.js"],
+		"preLaunchTask": "npm: compile"
+	  },
+	  {
+		"name": "Extension Client Tests",
+		"type": "extensionHost",
+		"request": "launch",
+		"runtimeExecutable": "${execPath}",
+		"args": [
+		  "--disable-extensions",
+		  "--extensionDevelopmentPath=${workspaceFolder}/FHIR-Converter",
+		  "--extensionTestsPath=${workspaceFolder}/FHIR-Converter/client/out/test/suite/index"
+		],
+		"outFiles": ["${workspaceFolder}/FHIR-Converter/client/out/test/**/*.js"],
+		"preLaunchTask": "npm: compile"
+	  },
+	  {
+		"name": "Extension Server Tests",
+		"type": "extensionHost",
+		"request": "launch",
+		"runtimeExecutable": "${execPath}",
+		"args": [
+		  "--disable-extensions",
+		  "--extensionDevelopmentPath=${workspaceFolder}/FHIR-Converter",
+		  "--extensionTestsPath=${workspaceFolder}/FHIR-Converter/server/out/test/suite/index"
+		],
+		"outFiles": ["${workspaceFolder}/FHIR-Converter/server/out/test/**/*.js"],
+		"preLaunchTask": "npm: compile"
+	  }
+	]
+  }
+  

@@ -8,11 +8,11 @@ import * as vscode from 'vscode';
 import * as interaction from '../common/file-dialog/file-dialog-interaction';
 import * as engineConstants from '../../core/common/constants/engine';
 import { gofshClient } from 'gofsh';
+import { logChannel } from '../../extension';
 
 export async function convertFhirToFshCommand(uri?: vscode.Uri) {
 
-	const output = vscode.window.createOutputChannel("FHIR-to-FSH");
-	output.show(true);
+	logChannel.show(true);
 
 	// Add conversion bar
 	const conversionBar: vscode.StatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
@@ -51,35 +51,35 @@ export async function convertFhirToFshCommand(uri?: vscode.Uri) {
 				}
 	
 				const fhirJson = fhirDoc.getText();
-				output.appendLine(`Using file: ${fhirDoc.uri.fsPath}`);
-				output.appendLine(`FHIR JSON length: ${fhirJson.length}`);
+				logChannel.appendLine(`Using file: ${fhirDoc.uri.fsPath}`);
+				logChannel.appendLine(`FHIR JSON length: ${fhirJson.length}`);
 
 				const results = await gofshClient.fhirToFsh([fhirJson]);
 
 				// Handle goFSH errors
 				if (results.errors && results.errors.length > 0) {
-					output.appendLine(`Errors (${results.errors.length}):`);
-					results.errors.forEach((e) => output.appendLine(`❌ ${JSON.stringify(e, null, 2)}`));
+					logChannel.appendLine(`Errors (${results.errors.length}):`);
+					results.errors.forEach((e) => logChannel.appendLine(`❌ ${JSON.stringify(e, null, 2)}`));
 					vscode.window.showErrorMessage(`FHIR to FSH conversion encountered ${results.errors.length} error(s). See output for details.`);
 					return;
 				}
 				
 				// Handle goFSH warnings
 				if (results.warnings && results.warnings.length > 0) {
-					output.appendLine(`Warnings (${results.warnings.length}):`);
-					results.warnings.forEach((w) => output.appendLine(`⚠️ ${JSON.stringify(w, null, 2)}`));
+					logChannel.appendLine(`Warnings (${results.warnings.length}):`);
+					results.warnings.forEach((w) => logChannel.appendLine(`⚠️ ${JSON.stringify(w, null, 2)}`));
 					vscode.window.showWarningMessage(`FHIR to FSH conversion completed with ${results.warnings.length} warning(s).`);
 				}
 
 				if (!results || !results.fsh || results.fsh.toString().length === 0) {
 					vscode.window.showWarningMessage('Conversion completed, but no FSH output was generated.');
-					output.appendLine('Conversion returned empty FSH result.');
+					logChannel.appendLine('Conversion returned empty FSH result.');
 					return;
 				}
 	
 				// Conversion OK - get Fsh result
 				const fshResult = results.fsh.toString();
-				output.appendLine(`FSH result received (${fshResult.length} chars)`);
+				logChannel.appendLine(`FSH result received (${fshResult.length} chars)`);
 	
 				progress.report({ message: 'Opening FSH result...' });
 				const fshDoc = await vscode.workspace.openTextDocument({
@@ -92,7 +92,7 @@ export async function convertFhirToFshCommand(uri?: vscode.Uri) {
 				});
 			} catch (err: any) {
 				const msg = `Error during conversion: ${err.message}`;
-				output.appendLine(msg);
+				logChannel.appendLine(msg);
 				vscode.window.showErrorMessage(msg);
 			} finally {
 				conversionBar.hide();

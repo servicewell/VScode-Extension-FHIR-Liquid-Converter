@@ -33,9 +33,14 @@ import { Reporter } from './telemetry/telemetry';
 import { checkCreateFolders } from './core/common/utils/file-utils';
 import { PlatformHandler } from './core/platform/platform-handler';
 
+export const logChannel = vscode.window.createOutputChannel('FHIR Liquid Converter');
 let client: LanguageClient;
 
 export async function activate(context: vscode.ExtensionContext) {
+
+	console.log('activate() reached in FHIR Liquid Converter');
+	context.subscriptions.push(logChannel);
+	logChannel.appendLine('FHIR Liquid Converter starting up...');
 	// Create telemetry report
 	context.subscriptions.push(new Reporter(context));
 
@@ -45,15 +50,28 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Set status bar
 	setStatusBar();
 
-	// Init default result folder
-	let resultFolder: string = globals.settingManager.getWorkspaceConfiguration(configurationConstants.ResultFolderKey);
+	// Resolve base path for result folder: prefer workspace, fallback to storage or temp
+	const workspacePath =
+		vscode.workspace.workspaceFolders?.[0].uri.fsPath ??
+		context.storageUri?.fsPath ??
+		context.globalStorageUri.fsPath ??
+		require('os').tmpdir();
+
+	// Get result folder from config, or use default 'flc-generated' if none is set
+	let resultFolder: string | undefined = globals.settingManager.getWorkspaceConfiguration(configurationConstants.ResultFolderKey);
+
 	if (!resultFolder) {
-		resultFolder = path.join(globals.settingManager.context.storagePath, configurationConstants.DefaultResultFolderName);
-		checkCreateFolders(resultFolder);
-		await globals.settingManager.updateWorkspaceConfiguration(configurationConstants.ResultFolderKey, resultFolder);
+		resultFolder = 'flc-generated'; // default, also matches package.json configuration default
 	}
 
-	// update template folder to workspace folder for showing the template folder in the explorer
+	// Ensure it's absolute path relative to workspace root
+	const resultFolderPath = path.resolve(workspacePath, resultFolder);
+	checkCreateFolders(resultFolderPath);
+
+	// Save resolved folder to workspace state (used by the rest of the extension)
+	await globals.settingManager.updateWorkspaceConfiguration(configurationConstants.ResultFolderKey, resultFolderPath);
+
+	// Update template folder visibility
 	updateTemplateFolderToWorkspaceFolder();
 	vscode.workspace.onDidChangeConfiguration(async () => {
 		updateTemplateFolderToWorkspaceFolder();
@@ -65,21 +83,21 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// Register commands
 	registerCommand(context, 'vscode-fhir-liquid-converter.createConverterWorkspace', () => { throw new Error("Not implemented"); createConverterWorkspaceCommand(); } );
-
-	registerCommand(context, 'vscode-fhir-liquid-converter.convert', () => convertCommand(false)); // Normal conversion
-	
-	registerCommand(context, 'vscode-fhir-liquid-converter.convertWithoutValidation', () => convertCommand(true)); // Without validation
-
+	registerCommand(context, 'vscode-fhir-liquid-converter.convert', () => convertCommand(false));
+	registerCommand(context, 'vscode-fhir-liquid-converter.convertWithoutValidation', () => convertCommand(true));
 	registerCommand(context, 'vscode-fhir-liquid-converter.selectData', selectDataCommand);
-
 	registerCommand(context, 'vscode-fhir-liquid-converter.selectTemplate', selectTemplateCommand);
-
 	registerCommand(context, 'vscode-fhir-liquid-converter.updateTemplateFolder', updateTemplateFolderCommand);
-
 	registerCommand(context, 'vscode-fhir-liquid-converter.convertFhirToFsh', convertFhirToFshCommand);
-	// Extract Oras
+
+	// Extract ORAS binary
 	PlatformHandler.getInstance().extractOras();
+
+	setTimeout(() => {
+		logChannel.appendLine('✅ FHIR Liquid Converter is ready.');
+	}, 100);
 }
+
 
 export function deactivate(context: vscode.ExtensionContext): Thenable<void> | undefined {
 	// Stops the language client if it was created
@@ -95,6 +113,7 @@ function updateTemplateFolderToWorkspaceFolder() {
 	if (templateFolder && fs.existsSync(templateFolder)) {
 		globals.settingManager.updateWorkspaceState(configurationConstants.TemplateFolderKey, templateFolder);
 	} else {
-		throw new ConfigurationError(localize('message.noTemplateFolderProvided'));
+		logChannel.appendLine('No valid template folder found at input/flc/templates. Skipping template folder setup.');
+		vscode.window.showWarningMessage('FHIR Liquid Converter: Could not find template folder at input/flc/templates. Some features may not work.');
 	}
 }

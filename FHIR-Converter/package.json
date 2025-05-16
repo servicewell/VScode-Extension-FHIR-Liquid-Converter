@@ -3,13 +3,13 @@
 	"publisher": "servicewell",
 	"displayName": "FHIR Liquid Converter",
 	"description": "Enables the conversion of legacy formatted health data to FHIR, expanding the use cases for health data and enabling interoperability.",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"license": "MIT",
 	"preview": true,
-	"homepage": "https://servicewell.visualstudio.com/swts/_git/vscode-fhir-liquid-converter",
+	"homepage": "https://github.com/servicewell/VScode-Extension-FHIR-Liquid-Converter",
 	"repository": {
 		"type": "git",
-		"url": "https://servicewell.visualstudio.com/swts/_git/vscode-fhir-liquid-converter"
+		"url": "https://github.com/servicewell/VScode-Extension-FHIR-Liquid-Converter"
 	},
 	"icon": "assets/servicewell_logo_small.png",
 	"galleryBanner": {
@@ -219,7 +219,6 @@
 		"typescript": "5.8.3"
 	},
 	"dependencies": {
-		"gofsh": "2.5.1",
 		"vscode-languageserver": "6.1.1",
 		"vscode-languageserver-protocol": "3.15.3"
 	},
