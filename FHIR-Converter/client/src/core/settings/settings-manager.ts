@@ -4,74 +4,35 @@
  */
 
 import * as vscode from 'vscode';
-import * as fileUtils from '../common/utils/file-utils';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export class SettingManager {
-	_context: vscode.ExtensionContext;
-	_workspaceSection: string;
+	private _context: vscode.ExtensionContext;
+	private _workspaceSection: string;
 
 	constructor(context: vscode.ExtensionContext, workspaceSection: string) {
+		this._context = context
 		this._workspaceSection = workspaceSection;
-		this._context = context;
 	}
 
 	public get context() {
 		return this._context;
 	}
 
-	public set context(context: vscode.ExtensionContext) {
-		this._context = context;
-	}
-	
-	public get workspaceSection() {
-		return this._workspaceSection;
+	public getWorkspaceState(key: string): any {
+		return this._context.workspaceState.get(key);
 	}
 
-	public set workspaceSection(workspaceSection: string) {
-		this._workspaceSection = workspaceSection;
+	public updateWorkspaceState(key: string, value: any): Thenable<void> {
+		return this._context.workspaceState.update(key, value);
 	}
 
-	initWorkspaceConfiguration(workspacePath: string) {
-		const workspaceConfig = {
-			'folders': [],
-			'settings': {}
-		};
-		fileUtils.writeJsonToFile(workspacePath, workspaceConfig);
-		return workspaceConfig;
+	public getWorkspaceConfiguration(key: string): any {
+		return vscode.workspace.getConfiguration(this._workspaceSection).get(key);
 	}
 
-	
-	getWorkspaceConfiguration(key: string) {
-		const value: string = vscode.workspace.getConfiguration(this.workspaceSection).get(key);
-		if (!value) {
-			return undefined;
-		}
-		return value;
-	}
-	
-	updateWorkspaceConfiguration(key: string, value: string) {
-		return new Promise<void>(resolve => {
-			vscode.workspace.getConfiguration(this.workspaceSection).update(key, value, false)
-			.then(() => {
-				resolve();
-			});
-		});
-	}
-
-	getWorkspaceState(key: string) {
-		const value: string = this.context.workspaceState.get(key);
-		if (!value) {
-			return undefined;
-		}
-		return value;
-	}
-
-	updateWorkspaceState(key: string, value: string) {
-		return new Promise<void>(resolve => {
-			this.context.workspaceState.update(key, value)
-			.then(() => {
-				resolve();
-			});
-		});
+	public updateWorkspaceConfiguration(key: string, value: any): Thenable<void> {
+		return vscode.workspace.getConfiguration(this._workspaceSection).update(key, value, false);
 	}
 }

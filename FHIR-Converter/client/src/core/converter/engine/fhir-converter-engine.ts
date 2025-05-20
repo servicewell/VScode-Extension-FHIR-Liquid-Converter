@@ -44,7 +44,7 @@ export class FhirConverterEngine implements IConverterEngine {
 		const timestamp = new Date().getTime().toString();
 		const resultFile = path.join(this._resultFolder, stringUtils.getResultFileName(dataFile, this._rootTemplate, timestamp));
 		const defaultResultFile = path.join(this._resultFolder, engineConstants.DefaultResultFile);
-		const rootTemplate = stringUtils.getFileNameWithoutExt(this._rootTemplate);
+		const rootTemplate = stringUtils.getRelativePathWithoutExt(this._templateFolder, this._rootTemplate);
 		const paramList = [' convert', 
 			'-d', stringUtils.addQuotes(this._templateFolder), 
 			'-r',  stringUtils.addQuotes(rootTemplate), 

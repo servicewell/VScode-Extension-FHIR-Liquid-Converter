@@ -5,6 +5,7 @@ node_modules
 out
 **/test-data/templates
 **/test-data/result
+*.tsbuildinfo
 *.vsix
 *.rsuser
 *.suo

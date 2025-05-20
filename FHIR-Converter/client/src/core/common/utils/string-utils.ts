@@ -40,6 +40,12 @@ export function getFileNameWithoutExt(filePath: string): string {
 	return fileName;
 }
 
+export function getRelativePathWithoutExt(from: string, to: string): string {
+	const relative = path.relative(from, to);
+	const ext = path.extname(relative);
+	return relative.slice(0, -ext.length);
+}
+
 export function getFileNameWithoutTwoExt(resultFilePath: string) {
 	return getFileNameWithoutExt(getFileNameWithoutExt(resultFilePath));
 }

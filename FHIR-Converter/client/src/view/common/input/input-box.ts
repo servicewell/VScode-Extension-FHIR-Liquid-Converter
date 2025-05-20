@@ -8,13 +8,13 @@ import * as vscode from 'vscode';
 
 export async function showInputBox(placeHolder: string, workspaceKey: string) {
 	const inputBoxOption = { placeHolder: placeHolder, ignoreFocusOut: true };
-	let input = globals.settingManager.getWorkspaceState(workspaceKey);
+	let input = globals.settingManager.getWorkspaceConfiguration(workspaceKey);
 	if (input) {
 		inputBoxOption['value'] = input;
 	}
 	input = await vscode.window.showInputBox(inputBoxOption);
 	if (input) {
-		await globals.settingManager.updateWorkspaceState(workspaceKey, input);
+		await globals.settingManager.updateWorkspaceConfiguration(workspaceKey, input);
 		return input;
 	}
 	return undefined;

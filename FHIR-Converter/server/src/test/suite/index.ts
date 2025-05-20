@@ -55,9 +55,9 @@ export async function run(): Promise<void> {
 	}
 
 	try {
-		await new Promise((resolve, reject) =>
+		await new Promise<void>((resolve, reject) =>
 			runner.run(failures =>
-			failures ? reject(new Error(`${failures} tests failed`)) : resolve(),
+			failures ? reject(new Error(`${failures} tests failed`)) : resolve(undefined),
 			),
 	);
 	} finally {
