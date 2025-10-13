@@ -1,14 +1,33 @@
 /*!
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License in the project root for license information.
+ * 
+ * ----------------------------------------------------
+ * Copyright 2025 ServiceWell AB
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import localize from '../../i18n/localize';
+import * as fs from 'fs';
+import * as gofsh from 'gofsh';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
 import * as vscode from 'vscode';
-import * as interaction from '../common/file-dialog/file-dialog-interaction';
 import * as engineConstants from '../../core/common/constants/engine';
-import { gofshClient } from 'gofsh';
+import { globals } from '../../core/globals';
 import { logChannel } from '../../extension';
+import localize from '../../i18n/localize';
+import * as interaction from '../common/file-dialog/file-dialog-interaction';
 
 export async function convertFhirToFshCommand(uri?: vscode.Uri) {
 
@@ -54,7 +73,7 @@ export async function convertFhirToFshCommand(uri?: vscode.Uri) {
 				logChannel.appendLine(`Using file: ${fhirDoc.uri.fsPath}`);
 				logChannel.appendLine(`FHIR JSON length: ${fhirJson.length}`);
 
-				const results = await gofshClient.fhirToFsh([fhirJson]);
+				const results = await gofsh.gofshClient.fhirToFsh([fhirJson]);
 
 				// Handle goFSH errors
 				if (results.errors && results.errors.length > 0) {
@@ -76,16 +95,14 @@ export async function convertFhirToFshCommand(uri?: vscode.Uri) {
 					logChannel.appendLine('Conversion returned empty FSH result.');
 					return;
 				}
-	
+				
 				// Conversion OK - get Fsh result
 				const fshResult = results.fsh.toString();
 				logChannel.appendLine(`FSH result received (${fshResult.length} chars)`);
-	
+				
 				progress.report({ message: 'Opening FSH result...' });
-				const fshDoc = await vscode.workspace.openTextDocument({
-					content: fshResult,
-					language: 'plaintext'
-				});
+
+				let fshDoc = await applySettingsConfiguraitions(fshResult);
 	
 				await vscode.window.showTextDocument(fshDoc, {
 					viewColumn: vscode.ViewColumn.Four
@@ -100,3 +117,51 @@ export async function convertFhirToFshCommand(uri?: vscode.Uri) {
 		}
 	);
 }
+
+async function applySettingsConfiguraitions(fshResult: string): Promise<vscode.TextDocument> {
+		const examples = globals.settingManager.configSettings?.includeInIG?.examples;
+		//Check if we have examples configurated
+		if (examples && examples.enabled){
+			logChannel.appendLine(`Examples are enabled in config...`)
+			const workspaceFolders = vscode.workspace.workspaceFolders;
+			if (!workspaceFolders || workspaceFolders.length === 0)
+				throw new Error("No folder is oppened");
+	
+			const rootPath = workspaceFolders[0].uri.fsPath
+			let sourceDataUri = fileURLToPath(vscode.window.visibleTextEditors.find(x => x.viewColumn === vscode.ViewColumn.One).document.uri.toString());
+			logChannel.appendLine(`Source path: ${sourceDataUri}`);					
+			let exampleLink = examples?.generateExampleFrom?.find(x => path.join(rootPath, x.input) === sourceDataUri);
+			if (exampleLink && exampleLink.output) {
+				logChannel.appendLine(`We have examples configurated to work with...`);
+				let filePath: string;
+				if (path.isAbsolute(exampleLink.output)){
+					filePath = exampleLink.output;
+				}
+				else {
+					filePath = path.join(rootPath, examples.outputExamplesFolder ?? "", exampleLink.output);
+				}
+				
+				let result = fshResult;
+				let index = result.indexOf("Usage: #example");
+				if (index !== -1) {
+					if (exampleLink.description)
+						result = `${result.slice(0, index)}Description: "${exampleLink.description}"\n${result.slice(index)}`;
+					if (exampleLink.title)
+						result = `${result.slice(0, index)}Title: "${exampleLink.title}"\n${result.slice(index)}`;
+				}
+				else if (exampleLink.title || exampleLink.description && index === -1)
+					throw new Error("The fsh isn't an \"#example\" so the title or description won't be applied")
+				fs.writeFileSync(filePath, result, "utf8")
+				return await vscode.workspace.openTextDocument(vscode.Uri.file(filePath));
+			}
+			else {
+				logChannel.appendLine(`No match with source: ${sourceDataUri} in ${rootPath}`);	
+			}
+		}
+		else{
+			return await vscode.workspace.openTextDocument({
+					content: fshResult,
+					language: 'plaintext'
+				});
+		}
+	}

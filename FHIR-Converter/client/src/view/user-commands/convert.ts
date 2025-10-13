@@ -1,19 +1,33 @@
 /*!
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License in the project root for license information.
+ * 
+ * Copyright 2025 Service Well AB
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import localize from '../../i18n/localize';
 import * as vscode from 'vscode';
-import * as configurationConstants from '../../core/common/constants/workspace-configuration';
-import * as interaction from '../common/file-dialog/file-dialog-interaction';
 import * as engineConstants from '../../core/common/constants/engine';
+import * as configurationConstants from '../../core/common/constants/workspace-configuration';
 import * as stateConstants from '../../core/common/constants/workspace-state';
-import * as unusedSegmentsDiagnostic from '../common/diagnostic/used-segments-diagnostic';
+import { ConverterEngineFactory } from '../../core/converter/converter-factory';
 import { globals } from '../../core/globals';
+import localize from '../../i18n/localize';
+import * as unusedSegmentsDiagnostic from '../common/diagnostic/used-segments-diagnostic';
 import { showDifferentialView } from '../common/editor/show-differential-view';
 import { showResultEditor } from '../common/editor/show-result-editor';
-import { ConverterEngineFactory } from '../../core/converter/converter-factory';
+import * as interaction from '../common/file-dialog/file-dialog-interaction';
 
 export async function convertCommand(skipValidation: boolean = false) {
 	// Add conversion bar

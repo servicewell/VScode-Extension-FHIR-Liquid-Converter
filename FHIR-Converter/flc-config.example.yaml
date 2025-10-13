@@ -1,0 +1,71 @@
+flc:
+  enabled: true
+  # Enables the FLC engine for use within this IG context
+
+  defaultMapProfile: http://servicewell.se/StructureDefinition/LiquidStructureMap
+  # Profile used to identify which StructureMaps are intended for Liquid-based transformation
+
+  engine: liquid
+  # Specifies the transformation engine (currently only 'liquid' supported)
+
+  inputFolder: input/flc/sampledata
+  # Path to sample input files (XML or JSON) used during mapping execution
+
+  templateFolder: input/flc/templates
+  # Path to Liquid templates used to transform input data into FHIR
+
+  validateTerminology: true
+  # Enables live terminology validation and resolution via FHIR Terminology Service API
+  # Requires terminology server to support $translate, $expand, $validate-code, etc.
+
+runtime:
+  outputFolder: flc-generated
+  # Output folder for runtime-generated FHIR instances (not intended to be committed into the IG)
+
+terminology:
+  requires:
+    - package: hl7.fhir.eu.laboratory
+      version: 0.2.0
+      resources:
+        - http://hl7.eu/fhir/laboratory/ConceptMap/ConceptMap-eu-diagRptStatus2CompStatus
+        # External ConceptMap used for mapping (e.g., diagnostic report status)
+
+dependencies:
+  # Dependencies to other FLC IGs (if templates from other IGs are referenced)
+  # These must also be listed in sushi-config.yaml under 'dependencies'
+  # Example:
+  # - package: servicewell.fhir.core-flc
+
+includeInIG:
+  examples:
+    enabled: true
+    # Allows this block to be disabled in production pipelines if needed
+
+    autoGenerateOnTransform: true
+    # During development, automatically generate FSH examples after successful transformation
+    # (optional, could be handled by CLI or plugin integration)
+
+    outputExamplesFolder: input/fsh/examples
+    # Target folder where generated .fsh example files are stored
+
+    removeDuplicates: true
+    # Automatically deduplicates resources that appear in multiple examples,
+    # based on matching 'id' and 'resourceType'.
+    #
+    # Useful when several Bundle examples reference the same Patient, Practitioner, etc.
+    # Only one instance will be generated, and subsequent references will assume the instance exists.
+    #
+    # This avoids duplicate .fsh definitions and reduces SUSHI validation errors related to conflicts.
+    #
+    # NOTE: This only removes exact duplicates during generation.
+    # In scenarios where similar resources share IDs but differ in content,
+    # you must resolve the conflict manually or harmonize references across bundles.
+
+    generateExampleFrom:
+      - input: input/flc/sampledata/ExamplePatient.json
+        output: Example-Patient.fsh
+        title: APA
+        description: Transformed ExamplePatient to FSH format
+      - input: input/flc/sampledata/LabOrder.xml
+        output: Example-LabOrder.fsh
+        description: Sample XML lab order transformed to FSH
