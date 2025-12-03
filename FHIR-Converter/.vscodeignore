@@ -27,8 +27,6 @@ docs/**
 gofsh/**
 scripts/**
 engine-tmp/**
-engine/**
-server/out/**
 
 # Trim dependency ballast but keep runtime files
 node_modules/**/test/**

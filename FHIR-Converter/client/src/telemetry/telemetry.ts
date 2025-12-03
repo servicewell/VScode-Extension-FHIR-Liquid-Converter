@@ -17,7 +17,7 @@ export let reporter: TelemetryReporter | NullTelemetryReporter = new NullTelemet
 export class Reporter extends vscode.Disposable {
 	constructor(ctx: vscode.ExtensionContext) {
 		const packageInfo = getPackageInfo(ctx);
-		reporter = packageInfo
+		reporter = packageInfo?.aiKey
 			? new TelemetryReporter(packageInfo.name, packageInfo.version, packageInfo.aiKey)
 			: new NullTelemetryReporter();
 
@@ -28,12 +28,12 @@ export class Reporter extends vscode.Disposable {
 interface IPackageInfo {
 	name: string;
 	version: string;
-	aiKey: string;
+	aiKey?: string;
 }
 
 function getPackageInfo(context: vscode.ExtensionContext): IPackageInfo {
 	const extensionPackage = require(context.asAbsolutePath('./package.json'));
-	if (extensionPackage) {
+	if (extensionPackage && extensionPackage.aiKey) {
 		return { name: extensionPackage.name, version: extensionPackage.version, aiKey: extensionPackage.aiKey };
 	}
 	return;

@@ -8275,7 +8275,7 @@ var Localize = class {
     this.init();
     const languageFormat = "package.nls{0}.json";
     const defaultLanguage = languageFormat.replace("{0}", "");
-    const rootPath = (0, import_path.join)(__dirname, "../../..");
+    const rootPath = this.findRootPath();
     const resolvedLanguage = this.recurseCandidates(
       rootPath,
       languageFormat,
@@ -8304,6 +8304,17 @@ var Localize = class {
       return this.recurseCandidates(rootPath, format, candidate.split("-")[0]);
     }
     return format.replace("{0}", "");
+  }
+  // Find the nearest folder upward that contains package.nls.json
+  findRootPath() {
+    let dir = __dirname;
+    for (let i = 0; i < 6; i++) {
+      if ((0, import_fs.existsSync)((0, import_path.resolve)(dir, "package.nls.json"))) {
+        return dir;
+      }
+      dir = (0, import_path.resolve)(dir, "..");
+    }
+    return (0, import_path.join)(__dirname, "../../..");
   }
 };
 var localize_default = Localize.prototype.localize.bind(new Localize());
