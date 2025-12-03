@@ -13,6 +13,15 @@
 
 <br/>
 
+# What's different in this fork
+- Works directly in a FHIR IG: no special project scaffolding; templates live alongside IG content.
+- Templates are distributed as a FHIR package (not via Azure Container Registry), so versioning and delivery follow standard FHIR packaging.
+- Bundled VSIX (esbuild) for a smaller install footprint.
+- Additional tooling: FHIR -> FSH conversion via GoFSH.
+- Telemetry uses our own key and can be disabled via `telemetry.enableTelemetry`.
+
+<br/>
+
 # Getting Started
 
 ## Start Converting
@@ -228,8 +237,20 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 ## Telemetry
 
-VS Code collects usage data and sends it to Microsoft to help improve our products and services. Read our [privacy statement](https://go.microsoft.com/fwlink/?LinkID=528096&clcid=0x409) to learn more. If you don't wish to send usage data to Microsoft, you can set the `telemetry.enableTelemetry` setting to `false`. Learn more in our [FAQ](https://code.visualstudio.com/docs/supporting/faq#_how-to-disable-telemetry-reporting).
+This fork uses `vscode-extension-telemetry` with our own instrumentation key. If you don’t want to send usage data, set `telemetry.enableTelemetry` to `false` in VS Code settings.
 
 ## License
 
-[MIT](LICENSE)
+Service Well AB modifications are licensed under Apache 2.0 ([LICENSE](LICENSE)). Upstream Microsoft code remains under MIT ([LICENSE-MICROSOFT](LICENSE-MICROSOFT)).
+
+## Building a bundled VSIX
+On Windows (PowerShell):
+```
+cd FHIR-Converter
+npm install --ignore-scripts
+npm run postinstall_with_git_bash
+npm run compile
+npm run bundle
+npm run package   # VSIX ends up in this folder
+```
+See `BUILDING.md` for details and troubleshooting.

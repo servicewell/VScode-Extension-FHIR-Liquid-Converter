@@ -23,7 +23,7 @@ import localize from '../../../i18n/localize';
 import { reporter } from '../../../telemetry/telemetry';
 import * as errorHandler from '../error/error-handler';
 
-const commandsNeedWorkspace = ['selectDataCommand', 'selectTemplateCommand', 'convertCommand', 'updateTemplateFolderCommand'];
+const commandsNeedWorkspace = ['selectDataCommand', 'selectTemplateCommand', 'convertCommand'];
 
 export async function commandHandler(event) {
 	try {

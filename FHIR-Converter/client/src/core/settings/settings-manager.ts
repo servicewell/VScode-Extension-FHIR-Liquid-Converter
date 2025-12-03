@@ -26,7 +26,7 @@ import * as vscode from 'vscode';
 export class SettingManager {
 	private _context: vscode.ExtensionContext;
 	private _workspaceSection: string;
-	private _configSettings: ConfigSettings;
+	private _configSettings?: ConfigSettings;
 
 	constructor(context: vscode.ExtensionContext, workspaceSection: string) {
 		this._context = context
@@ -37,21 +37,29 @@ export class SettingManager {
 
 		const rootPath = workspaceFolders[0].uri.fsPath;
 		const configFilePath = path.join(rootPath, "flc-config.yaml");
-		if (!fs.existsSync(configFilePath))
+		if (!fs.existsSync(configFilePath)) {
 			return;
-		
-		const obj = load(fs.readFileSync(configFilePath, "utf-8"));
-		if (obj === null || typeof obj !== "object")
-			throw new Error("YAML did not parse into an object");
+		}
 
-		this._configSettings = obj as ConfigSettings;
+		try {
+			const raw = fs.readFileSync(configFilePath, "utf-8");
+			const obj = load(raw);
+			if (obj === null || typeof obj !== "object") {
+				vscode.window.showWarningMessage("FHIR Liquid Converter: flc-config.yaml could not be parsed; using defaults.");
+				return;
+			}
+			this._configSettings = obj as ConfigSettings;
+		} catch (err) {
+			const message = err instanceof Error ? err.message : String(err);
+			vscode.window.showWarningMessage(`FHIR Liquid Converter: failed to read flc-config.yaml (${message}); using defaults.`);
+		}
 	}
 
 	public get context() {
 		return this._context;
 	}
 
-	public get configSettings() {
+	public get configSettings(): ConfigSettings | undefined {
 		return this._configSettings;
 	}
 

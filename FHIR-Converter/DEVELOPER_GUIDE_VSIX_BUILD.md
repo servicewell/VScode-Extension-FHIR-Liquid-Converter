@@ -1,4 +1,4 @@
-> ### ⚠️ **Notice**  
+> ### 🚩 Notice  
 > This is a **Service Well AB maintained fork** of the [original Microsoft FHIR Converter VS Code Extension](https://github.com/microsoft/vscode-azurehealthcareapis-tools).  
 > All modifications in this repository are made by **Service Well AB** and are licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).  
 > This fork includes additional functionality and tools that may not be compatible with the upstream version.  
@@ -6,34 +6,45 @@
 
 <br/>
 
-# Developer Guide - Creating and Installing a VSIX Extension in Visual Studio Code
+# Developer Guide – Creating and Installing a VSIX Extension in Visual Studio Code
 
-This guide walks you through how to package a Visual Studio Code extension into a `.vsix` file and install it manually.
+This guide walks you through packaging the extension into a `.vsix` and installing it manually.
 
 ---
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) installed
-- [VS Code Extension CLI (`vsce`)](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#packaging-extensions) installed:
-  
-  ```bash
-  npm install -g vsce
-  ```
-
-- The extension project folder should contain a valid `package.json`.
+- Node.js 20+ (npm 10+)
+- Git Bash available at `C:\Program Files\Git\bin\bash.exe` (Windows)
+- Optional: `vsce` globally; otherwise we use `npx @vscode/vsce`
 
 ---
 
-## Step 1: Package the Extension
+## Step 1: Install dependencies
 
-In the extension's root folder, run the custom script:
+```bash
+npm install --ignore-scripts
+npm run postinstall_with_git_bash
+```
+
+---
+
+## Step 2: Build and bundle
+
+```bash
+npm run compile
+npm run bundle
+```
+
+---
+
+## Step 3: Package the VSIX
 
 ```bash
 npm run package
 ```
 
-This will generate a `.vsix` file in the **root of the project**, typically named like:
+This generates a `.vsix` in the repo root, e.g.:
 
 ```
 your-extension-name-x.y.z.vsix
@@ -41,50 +52,36 @@ your-extension-name-x.y.z.vsix
 
 ---
 
-## Step 2: Install the VSIX in Visual Studio Code
+## Step 4: Install the VSIX in VS Code
 
-You can install the `.vsix` file using either the **command palette** or the **Extensions tab**.
+You can install the `.vsix` file using either the **Command Palette** or the **Extensions** view.
 
-### Option A: Using the Command Palette
+### Option A: Command Palette
 
 1. Open **Visual Studio Code**
 2. Press `Ctrl+Shift+P` (or `F1`)
 3. Type: `Extensions: Install from VSIX...`
-4. Select your `.vsix` file from the file dialog
+4. Select your `.vsix` file
 
-### Option B: Using the Extensions Tab
+### Option B: Extensions view
 
 1. Open the **Extensions** sidebar (`Ctrl+Shift+X`)
 2. Click the `⋯` (More Actions) menu in the top-right corner
 3. Select **Install from VSIX...**
-4. Choose your `.vsix` file from the file dialog
+4. Choose your `.vsix` file
 
 ---
 
-## Step 3: Verify Installation
+## Step 5: Verify installation
 
-1. Go to the **Extensions** sidebar (`Ctrl+Shift+X`)
-2. Look for your extension in the list
-3. Reload or restart VS Code if necessary
+1. Open the **Extensions** sidebar (`Ctrl+Shift+X`)
+2. Find the extension in the list
+3. Reload or restart VS Code if needed
 
 ---
 
-## Step 4: Additional Setup (Post-Installation)
+## Notes
 
-After installing the extension, you’ll need to **either**:
-
-- Run the following script from the root of the project:
-  
-  ```bash
-  npm run postinstall_with_git_bash
-  ```
-
-  This performs necessary setup tasks that would normally happen automatically when installing from the marketplace.
-
-**OR**
-
-- Manually configure the extension by:
-  1. Opening **Extension Settings**
-  2. Setting the **Engine Folder Path** to point to the root directory of a compiled backend
-
-> The second option is intended for advanced users or developers who wish to link the extension to a specific backend manually.
+- `npm run package` calls `vsce` via `npx` and assumes `npm run bundle` has produced `dist/`.
+- If Git Bash lives elsewhere, update `postinstall_with_git_bash` in `package.json`.
+- The postinstall script downloads the engine and installs client/server dependencies; don’t skip it for local builds.

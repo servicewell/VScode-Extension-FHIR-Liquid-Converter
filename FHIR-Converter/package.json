@@ -3,8 +3,8 @@
 	"publisher": "servicewell",
 	"displayName": "FHIR Liquid Converter",
 	"description": "Enables the conversion of legacy formatted health data to FHIR, expanding the use cases for health data and enabling interoperability.",
-	"version": "1.2.2",
-	"license": "MIT",
+	"version": "0.3.0",
+	"license": "Apache-2.0",
 	"preview": true,
 	"homepage": "https://github.com/servicewell/VScode-Extension-FHIR-Liquid-Converter",
 	"repository": {
@@ -38,10 +38,8 @@
 	"activationEvents": [
 		"onCommand:vscode-fhir-liquid-converter.convert",
 		"onCommand:vscode-fhir-liquid-converter.convertWithoutValidation",
-		"onCommand:vscode-fhir-liquid-converter.updateTemplateFolder",
 		"onCommand:vscode-fhir-liquid-converter.selectTemplate",
 		"onCommand:vscode-fhir-liquid-converter.selectData",
-		"onCommand:vscode-fhir-liquid-converter.createConverterWorkspace",
 		"workspaceContains:**/*.liquid"
 	],
 	"main": "./dist/extension.js",
@@ -66,20 +64,12 @@
 				"title": "FHIR Liquid Converter: Convert to FSH"
 			},
 			{
-				"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
-				"title": "FHIR Liquid Converter: Update template folder"
-			},
-			{
 				"command": "vscode-fhir-liquid-converter.selectTemplate",
 				"title": "FHIR Liquid Converter: Select as template (*.liquid)"
 			},
 			{
 				"command": "vscode-fhir-liquid-converter.selectData",
 				"title": "FHIR Liquid Converter: Select as data (*.[hl7|ccda|json|xml])"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
-				"title": "FHIR Liquid Converter: Create a converter workspace"
 			}
 		],
 		"menus": {
@@ -131,26 +121,10 @@
 					"command": "vscode-fhir-liquid-converter.convertFhirToFsh",
 					"group": "1_converter",
 					"when": "resourceExtname == .json"
-				},
-				{
-					"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
-					"group": "1_converter"
-				},
-				{
-					"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
-					"group": "1_converter"
 				}
 			]
 		},
 		"keybindings": [
-			{
-				"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
-				"key": "Ctrl+U"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
-				"key": "Ctrl+W"
-			},
 			{
 				"command": "vscode-fhir-liquid-converter.convert",
 				"key": "Ctrl+R"

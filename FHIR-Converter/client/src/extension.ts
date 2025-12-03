@@ -33,10 +33,8 @@ import { registerCommand } from './view/common/commands/register-command';
 import { setStatusBar } from './view/common/status-bar/set-status-bar';
 import { convertCommand } from './view/user-commands/convert';
 import { convertFhirToFshCommand } from './view/user-commands/convert-fhirtofsh';
-import { createConverterWorkspaceCommand } from './view/user-commands/create-converter-workspace';
 import { selectDataCommand } from './view/user-commands/select-data';
 import { selectTemplateCommand } from './view/user-commands/select-template';
-import { updateTemplateFolderCommand } from './view/user-commands/update-template-folder';
 
 export const logChannel = vscode.window.createOutputChannel('FHIR Liquid Converter');
 let client: LanguageClient;
@@ -87,12 +85,10 @@ export async function activate(context: vscode.ExtensionContext) {
 	client.start();
 
 	// Register commands
-	registerCommand(context, 'vscode-fhir-liquid-converter.createConverterWorkspace', () => { throw new Error("Not implemented"); createConverterWorkspaceCommand(); } );
 	registerCommand(context, 'vscode-fhir-liquid-converter.convert', () => convertCommand(false));
 	registerCommand(context, 'vscode-fhir-liquid-converter.convertWithoutValidation', () => convertCommand(true));
 	registerCommand(context, 'vscode-fhir-liquid-converter.selectData', selectDataCommand);
 	registerCommand(context, 'vscode-fhir-liquid-converter.selectTemplate', selectTemplateCommand);
-	registerCommand(context, 'vscode-fhir-liquid-converter.updateTemplateFolder', updateTemplateFolderCommand);
 	registerCommand(context, 'vscode-fhir-liquid-converter.convertFhirToFsh', convertFhirToFshCommand);
 
 	// Extract ORAS binary
