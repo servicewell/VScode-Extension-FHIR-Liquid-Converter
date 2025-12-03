@@ -12,7 +12,9 @@
 .vscode test/**
 
 assets/**/*.gif
+assets/**/*.mp4
 azure-pipelines.yml
+DEVELOPER_GUIDE_*.md
 client/.nyc_output/**
 client/coverage/**
 client/install-engine.sh
@@ -21,7 +23,11 @@ client/out/**
 client/src/**
 client/test/**
 test-data
+docs/**
+gofsh/**
 scripts/**
+engine-tmp/**
+engine/**
 server/out/**
 
 # Trim dependency ballast but keep runtime files

@@ -32,8 +32,7 @@ npm run postinstall_with_git_bash
 ## Step 2: Build and bundle
 
 ```bash
-npm run compile
-npm run bundle
+npm run compile && npm run bundle
 ```
 
 ---
