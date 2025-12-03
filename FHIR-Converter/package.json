@@ -3,7 +3,7 @@
 	"publisher": "servicewell",
 	"displayName": "FHIR Liquid Converter",
 	"description": "Enables the conversion of legacy formatted health data to FHIR, expanding the use cases for health data and enabling interoperability.",
-	"version": "1.2.0",
+	"version": "1.2.2",
 	"license": "MIT",
 	"preview": true,
 	"homepage": "https://github.com/servicewell/VScode-Extension-FHIR-Liquid-Converter",
@@ -44,7 +44,7 @@
 		"onCommand:vscode-fhir-liquid-converter.createConverterWorkspace",
 		"workspaceContains:**/*.liquid"
 	],
-	"main": "./client/out/extension.js",
+	"main": "./dist/extension.js",
 	"capabilities": {
 		"untrustedWorkspaces": {
 			"supported": true
@@ -189,7 +189,7 @@
 		}
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
+		"vscode:prepublish": "npm run compile && npm run bundle",
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
 		"postinstall": "cd client && npm install && bash ./install-engine.sh && cd ../server && npm install && cd ..",
@@ -197,7 +197,8 @@
 		"test": "npm run compile && node ./client/out/test/runTest.js && node ./server/out/test/runTest.js",
 		"download-templates": "cd test-data && bash download-templates.sh",
 		"download-templates_with_git_bash": "cd test-data && \"C:\\Program Files\\Git\\bin\\bash.exe\" download-templates.sh",
-		"package": "npx @vscode/vsce package --baseContentUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\" --baseImagesUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\"",
+		"bundle": "node ./scripts/bundle.js",
+		"package": "npm run compile && npm run bundle && npx @vscode/vsce package --baseContentUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\" --baseImagesUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\"",
 		"lint": "tslint --fix client/src/**/*.ts  server/src/**/*.ts"
 	},
 	"devDependencies": {
@@ -206,6 +207,7 @@
 		"@types/node": "14.18.63",
 		"@types/vscode": "1.81.0",
 		"@types/js-yaml": "^4.0.9",
+		"esbuild": "^0.23.0",
 		"@vscode/test-electron": "2.3.2",
 		"@vscode/vsce": "2.24.0",
 		"chai": "4.2.0",

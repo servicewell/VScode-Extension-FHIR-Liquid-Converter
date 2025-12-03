@@ -6,13 +6,22 @@
 import TelemetryReporter from 'vscode-extension-telemetry';
 import * as vscode from 'vscode';
 
-export let reporter: TelemetryReporter;
+// Simple fallback reporter so dispose/telemetry calls are always safe
+class NullTelemetryReporter {
+	sendTelemetryEvent(): void { /* noop */ }
+	dispose(): void { /* noop */ }
+}
+
+export let reporter: TelemetryReporter | NullTelemetryReporter = new NullTelemetryReporter();
 
 export class Reporter extends vscode.Disposable {
 	constructor(ctx: vscode.ExtensionContext) {
-		super(() => reporter.dispose());
 		const packageInfo = getPackageInfo(ctx);
-		reporter = packageInfo && new TelemetryReporter(packageInfo.name, packageInfo.version, packageInfo.aiKey);
+		reporter = packageInfo
+			? new TelemetryReporter(packageInfo.name, packageInfo.version, packageInfo.aiKey)
+			: new NullTelemetryReporter();
+
+		super(() => reporter.dispose());
 	}
 }
 
