@@ -21,6 +21,7 @@ Work with FHIR Liquid templates directly inside an IG. Templates are shipped as 
    - `flc-generated/` (results)
 2. Select a template (`.liquid`) and data file (`.json/.xml/.hl7/.ccda`) from the explorer context menu.
 3. Run “FHIR Liquid Converter: Convert data” (Ctrl+R). You get data/template/result panes.
+4. For batch convert: right-click an input folder → “FHIR Liquid Converter: Batch convert folder”, pick output folder when prompted. The engine processes all files in the input folder.
 
 ## Settings (workspace)
 - `vscode-fhir-liquid-converter.engineFolderPath`: override engine path (default: bundled `engine/`).

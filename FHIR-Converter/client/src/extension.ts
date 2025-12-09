@@ -33,6 +33,7 @@ import { registerCommand } from './view/common/commands/register-command';
 import { setStatusBar } from './view/common/status-bar/set-status-bar';
 import { convertCommand } from './view/user-commands/convert';
 import { convertFhirToFshCommand } from './view/user-commands/convert-fhirtofsh';
+import { batchConvertCommand } from './view/user-commands/convert-batch';
 import { selectDataCommand } from './view/user-commands/select-data';
 import { selectTemplateCommand } from './view/user-commands/select-template';
 
@@ -87,6 +88,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Register commands
 	registerCommand(context, 'vscode-fhir-liquid-converter.convert', () => convertCommand(false));
 	registerCommand(context, 'vscode-fhir-liquid-converter.convertWithoutValidation', () => convertCommand(true));
+	registerCommand(context, 'vscode-fhir-liquid-converter.batchConvert', batchConvertCommand);
 	registerCommand(context, 'vscode-fhir-liquid-converter.selectData', selectDataCommand);
 	registerCommand(context, 'vscode-fhir-liquid-converter.selectTemplate', selectTemplateCommand);
 	registerCommand(context, 'vscode-fhir-liquid-converter.convertFhirToFsh', convertFhirToFshCommand);
