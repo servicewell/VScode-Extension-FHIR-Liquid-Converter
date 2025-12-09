@@ -181,6 +181,7 @@
 		"download-templates": "cd test-data && bash download-templates.sh",
 		"download-templates_with_git_bash": "cd test-data && \"C:\\Program Files\\Git\\bin\\bash.exe\" download-templates.sh",
 		"bundle": "node ./scripts/bundle.js",
+		"compile-bundle": "npm run compile && npm run bundle",
 		"package": "npm run compile && npm run bundle && npx @vscode/vsce package --baseContentUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\" --baseImagesUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\"",
 		"lint": "tslint --fix client/src/**/*.ts  server/src/**/*.ts"
 	},

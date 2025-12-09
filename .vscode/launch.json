@@ -8,7 +8,7 @@
 		"runtimeExecutable": "${execPath}",
 		"args": ["--extensionDevelopmentPath=${workspaceFolder}/FHIR-Converter"],
 		"outFiles": ["${workspaceFolder}/FHIR-Converter/client/out/**/*.js"],
-		"preLaunchTask": "npm: compile"
+		"preLaunchTask": "npm: compile-bundle (FHIR-Converter)"
 	  },
 	  {
 		"name": "Extension Client Tests",
@@ -21,7 +21,7 @@
 		  "--extensionTestsPath=${workspaceFolder}/FHIR-Converter/client/out/test/suite/index"
 		],
 		"outFiles": ["${workspaceFolder}/FHIR-Converter/client/out/test/**/*.js"],
-		"preLaunchTask": "npm: compile"
+		"preLaunchTask": "npm: compile-bundle (FHIR-Converter)"
 	  },
 	  {
 		"name": "Extension Server Tests",
@@ -34,7 +34,7 @@
 		  "--extensionTestsPath=${workspaceFolder}/FHIR-Converter/server/out/test/suite/index"
 		],
 		"outFiles": ["${workspaceFolder}/FHIR-Converter/server/out/test/**/*.js"],
-		"preLaunchTask": "npm: compile"
+		"preLaunchTask": "npm: compile-bundle (FHIR-Converter)"
 	  }
 	]
   }

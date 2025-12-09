@@ -1,41 +1,15 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "npm: compile", 
-			"type": "npm",
-			"script": "compile",
-			"options": {
-				"cwd": "${workspaceFolder}/FHIR-Converter"
-			  },			
-			"group": "build",
-			"presentation": {
-				"panel": "dedicated",
-				"reveal": "always"
-			},
-			"problemMatcher": [
-				"$tsc"
-			]
-		},
-		{
-			"label": "npm: watch", 
-			"type": "npm",
-			"script": "watch",
-			"options": {
-				"cwd": "${workspaceFolder}/FHIR-Converter"
-			  },			
-			"isBackground": true,
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"presentation": {
-				"panel": "dedicated",
-				"reveal": "always"
-			},
-			"problemMatcher": [
-				"$tsc-watch"
-			]
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "npm: compile-bundle (FHIR-Converter)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "compile-bundle"],
+      "options": {
+        "cwd": "${workspaceFolder}/FHIR-Converter"
+      },
+      "problemMatcher": []
+    }
+  ]
 }
