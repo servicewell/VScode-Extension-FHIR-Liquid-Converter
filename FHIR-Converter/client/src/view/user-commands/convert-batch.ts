@@ -54,7 +54,9 @@ export async function batchConvertCommand(uri?: vscode.Uri) {
 
 		cp.execSync(cmd, { cwd: engineConstants.DefaultEngineFolder, stdio: 'inherit' });
 
-		await updateSushiConfig(targetFolder, rootTemplate, workspacePath);
+		await normalizeOutputFiles(targetFolder);
+		const sourceTag = path.relative(workspacePath, sourceFolder) || path.basename(sourceFolder);
+		await updateSushiConfig(targetFolder, rootTemplate, workspacePath, sourceTag);
 
 		vscode.window.showInformationMessage(`Batch conversion completed. Output: ${targetFolder}`);
 		logChannel.appendLine(`Batch conversion completed. Output: ${targetFolder}`);
@@ -65,7 +67,7 @@ export async function batchConvertCommand(uri?: vscode.Uri) {
 	}
 }
 
-async function updateSushiConfig(outputFolder: string, rootTemplate: string, workspacePath: string) {
+async function updateSushiConfig(outputFolder: string, rootTemplate: string, workspacePath: string, sourceTag: string) {
 	try {
 		const sushiPath = path.join(workspacePath, 'sushi-config.yaml');
 		if (!fs.existsSync(sushiPath)) {
@@ -74,30 +76,36 @@ async function updateSushiConfig(outputFolder: string, rootTemplate: string, wor
 		}
 
 		const sushiText = fs.readFileSync(sushiPath, 'utf-8');
-		const yamlObj = (yamlLoad(sushiText) as any) || {};
-		yamlObj.resources = yamlObj.resources || {};
+		const autoResources: Record<string, any> = {};
 
 		const files = fs.readdirSync(outputFolder).filter(f => f.toLowerCase().endsWith('.json'));
 		for (const file of files) {
 			const fullPath = path.join(outputFolder, file);
 			try {
 				const content = JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
-				const resourceType = content.resourceType || 'Resource';
-				const id = content.id || path.parse(file).name;
+				const resource = content.FhirResource ?? content;
+				const resourceType = resource.resourceType || 'Resource';
+				const id = resource.id || path.parse(file).name;
 				const key = `${resourceType}/${id}`;
 				const name = path.parse(file).name;
 				const description = `Generated from template ${path.basename(rootTemplate)}`;
-				yamlObj.resources[key] = yamlObj.resources[key] || {};
-				yamlObj.resources[key].name = name;
-				yamlObj.resources[key].description = description;
-				yamlObj.resources[key].exampleBoolean = true;
+				autoResources[key] = {
+					name,
+					description,
+					exampleBoolean: true
+				};
 			} catch (err) {
 				logChannel.appendLine(`Failed to add ${file} to sushi-config.yaml: ${err}`);
 			}
 		}
 
-		const newResourcesBlock = yamlDump({ resources: yamlObj.resources });
-		const replaced = replaceResourcesBlock(sushiText, newResourcesBlock);
+		if (Object.keys(autoResources).length === 0) {
+			logChannel.appendLine('No resources to add to sushi-config.yaml.');
+			return;
+		}
+
+		const autoYaml = yamlDump(autoResources).trimEnd();
+		const replaced = replaceResourcesBlockWithMarkers(sushiText, autoYaml, sourceTag);
 		fs.writeFileSync(sushiPath, replaced, 'utf-8');
 		logChannel.appendLine(`Updated sushi-config.yaml with ${files.length} resources.`);
 	} catch (err: any) {
@@ -105,30 +113,72 @@ async function updateSushiConfig(outputFolder: string, rootTemplate: string, wor
 	}
 }
 
-function replaceResourcesBlock(original: string, resourcesYaml: string): string {
-	const lines = original.split(/\r?\n/);
-	let start = -1;
-	let end = lines.length;
+async function normalizeOutputFiles(outputFolder: string) {
+	const files = fs.readdirSync(outputFolder).filter(f => f.toLowerCase().endsWith('.json'));
+	for (const file of files) {
+		const fullPath = path.join(outputFolder, file);
+		try {
+			const raw = JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
+			if (raw && raw.FhirResource) {
+				fs.writeFileSync(fullPath, JSON.stringify(raw.FhirResource, null, 2), 'utf-8');
+				logChannel.appendLine(`Normalized wrapped output to pure FHIR JSON: ${file}`);
+			}
+		} catch (err) {
+			logChannel.appendLine(`Failed to normalize ${file}: ${err}`);
+		}
+	}
+}
 
+function replaceResourcesBlock(original: string, resourcesYaml: string): string {
+	// Deprecated: kept for reference; not used
+	return original;
+}
+
+function replaceResourcesBlockWithMarkers(original: string, autoYaml: string, tag: string): string {
+	const startMarker = `# FLC AUTO START ${tag}`;
+	const endMarker = `# FLC AUTO END ${tag}`;
+	const lines = original.split(/\r?\n/);
+
+	let resourcesStart = -1;
+	let resourcesEnd = lines.length;
 	for (let i = 0; i < lines.length; i++) {
 		if (/^resources:\s*$/.test(lines[i])) {
-			start = i;
+			resourcesStart = i;
 			break;
 		}
 	}
-
-	if (start !== -1) {
-		for (let j = start + 1; j < lines.length; j++) {
+	if (resourcesStart !== -1) {
+		for (let j = resourcesStart + 1; j < lines.length; j++) {
 			if (/^[^\s#]/.test(lines[j])) {
-				end = j;
+				resourcesEnd = j;
 				break;
 			}
 		}
-		const before = lines.slice(0, start).join('\n');
-		const after = lines.slice(end).join('\n');
-		return [before, resourcesYaml.trimEnd(), after].filter(Boolean).join('\n');
 	}
 
-	// No existing resources block; append
-	return [original.trimEnd(), resourcesYaml.trimEnd()].filter(Boolean).join('\n') + '\n';
+	// Detect existing markers
+	let autoStart = lines.findIndex(l => l.trim() === startMarker);
+	let autoEnd = lines.findIndex(l => l.trim() === endMarker);
+
+	// Indent helper
+	const indent = (s: string, spaces = 2) => s.split(/\r?\n/).map(l => ' '.repeat(spaces) + l).join('\n');
+	const autoBlock = [startMarker, indent(autoYaml), endMarker].join('\n');
+
+	if (autoStart !== -1 && autoEnd > autoStart) {
+		// Replace existing auto block
+		const before = lines.slice(0, autoStart).join('\n');
+		const after = lines.slice(autoEnd + 1).join('\n');
+		return [before, autoBlock, after].filter(Boolean).join('\n');
+	}
+
+	if (resourcesStart !== -1) {
+		// Insert inside resources block at the end
+		const before = lines.slice(0, resourcesEnd).join('\n');
+		const after = lines.slice(resourcesEnd).join('\n');
+		const insertion = indent(autoBlock);
+		return [before, insertion, after].filter(Boolean).join('\n');
+	}
+
+	// No resources block at all; create one
+	return ['resources:', indent(autoBlock), original.trimEnd()].filter(Boolean).join('\n') + '\n';
 }
