@@ -1,37 +1,41 @@
 /*!
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License in the project root for license information.
+ * 
+ * -------------------------------------------------------
+ * Copyright 2025 Service Well AB
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import { LanguageClient } from 'vscode-languageclient';
-import { createLanguageClient } from './core/language-client/language-client';
-import { globals } from './core/globals';
-import localize from './i18n/localize';
-import * as path from 'path';
 import * as fs from 'fs';
-import * as stringUtils from './core/common/utils/string-utils';
-import * as configurationConstants from './core/common/constants/workspace-configuration';
+import * as path from 'path';
 import * as vscode from 'vscode';
-import { createConverterWorkspaceCommand } from './view/user-commands/create-converter-workspace';
-import { convertCommand } from  './view/user-commands/convert';
-import { updateTemplateFolderCommand } from  './view/user-commands/update-template-folder';
-import { selectTemplateCommand } from  './view/user-commands/select-template';
-import { selectDataCommand } from  './view/user-commands/select-data';
-import { pullTemplatesCommand } from  './view/user-commands/pull-templates';
-import { pullSampleDataCommand } from './view/user-commands/pull-sample-data';
-import { pullOfficialTemplatesCommand } from  './view/user-commands/pull-official-templates';
-import { pushTemplatesCommand } from  './view/user-commands/push-templates';
-import { loginRegistryCommand } from  './view/user-commands/login-registry';
-import { logoutRegistryCommand } from  './view/user-commands/logout-registry';
-import { convertFhirToFshCommand } from  './view/user-commands/convert-fhirtofsh';
-import { registerCommand } from './view/common/commands/register-command';
-import { SettingManager } from './core/settings/settings-manager';
-import { setStatusBar } from './view/common/status-bar/set-status-bar';
-import { ConfigurationError } from './core/common/errors/configuration-error';
-import { converterWorkspaceExists } from './view/common/workspace/converter-workspace-exists';
-import { Reporter } from './telemetry/telemetry';
+import { LanguageClient } from 'vscode-languageclient';
+import * as configurationConstants from './core/common/constants/workspace-configuration';
 import { checkCreateFolders } from './core/common/utils/file-utils';
+import { globals } from './core/globals';
+import { createLanguageClient } from './core/language-client/language-client';
 import { PlatformHandler } from './core/platform/platform-handler';
+import { SettingManager } from './core/settings/settings-manager';
+import { Reporter } from './telemetry/telemetry';
+import { registerCommand } from './view/common/commands/register-command';
+import { setStatusBar } from './view/common/status-bar/set-status-bar';
+import { convertCommand } from './view/user-commands/convert';
+import { convertFhirToFshCommand } from './view/user-commands/convert-fhirtofsh';
+import { batchConvertCommand } from './view/user-commands/convert-batch';
+import { selectDataCommand } from './view/user-commands/select-data';
+import { selectTemplateCommand } from './view/user-commands/select-template';
 
 export const logChannel = vscode.window.createOutputChannel('FHIR Liquid Converter');
 let client: LanguageClient;
@@ -82,12 +86,11 @@ export async function activate(context: vscode.ExtensionContext) {
 	client.start();
 
 	// Register commands
-	registerCommand(context, 'vscode-fhir-liquid-converter.createConverterWorkspace', () => { throw new Error("Not implemented"); createConverterWorkspaceCommand(); } );
 	registerCommand(context, 'vscode-fhir-liquid-converter.convert', () => convertCommand(false));
 	registerCommand(context, 'vscode-fhir-liquid-converter.convertWithoutValidation', () => convertCommand(true));
+	registerCommand(context, 'vscode-fhir-liquid-converter.batchConvert', batchConvertCommand);
 	registerCommand(context, 'vscode-fhir-liquid-converter.selectData', selectDataCommand);
 	registerCommand(context, 'vscode-fhir-liquid-converter.selectTemplate', selectTemplateCommand);
-	registerCommand(context, 'vscode-fhir-liquid-converter.updateTemplateFolder', updateTemplateFolderCommand);
 	registerCommand(context, 'vscode-fhir-liquid-converter.convertFhirToFsh', convertFhirToFshCommand);
 
 	// Extract ORAS binary

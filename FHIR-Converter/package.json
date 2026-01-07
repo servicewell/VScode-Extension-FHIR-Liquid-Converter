@@ -3,8 +3,8 @@
 	"publisher": "servicewell",
 	"displayName": "FHIR Liquid Converter",
 	"description": "Enables the conversion of legacy formatted health data to FHIR, expanding the use cases for health data and enabling interoperability.",
-	"version": "1.1.0",
-	"license": "MIT",
+	"version": "1.3.2",
+	"license": "Apache-2.0",
 	"preview": true,
 	"homepage": "https://github.com/servicewell/VScode-Extension-FHIR-Liquid-Converter",
 	"repository": {
@@ -34,17 +34,15 @@
 		"C-CDA",
 		"Liquid"
 	],
-	"aiKey": "AIF-d9b70cd4-b9f9-4d70-929b-a071c400b217",
 	"activationEvents": [
 		"onCommand:vscode-fhir-liquid-converter.convert",
 		"onCommand:vscode-fhir-liquid-converter.convertWithoutValidation",
-		"onCommand:vscode-fhir-liquid-converter.updateTemplateFolder",
+		"onCommand:vscode-fhir-liquid-converter.batchConvert",
 		"onCommand:vscode-fhir-liquid-converter.selectTemplate",
 		"onCommand:vscode-fhir-liquid-converter.selectData",
-		"onCommand:vscode-fhir-liquid-converter.createConverterWorkspace",
 		"workspaceContains:**/*.liquid"
 	],
-	"main": "./client/out/extension.js",
+	"main": "./dist/extension.js",
 	"capabilities": {
 		"untrustedWorkspaces": {
 			"supported": true
@@ -66,8 +64,8 @@
 				"title": "FHIR Liquid Converter: Convert to FSH"
 			},
 			{
-				"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
-				"title": "FHIR Liquid Converter: Update template folder"
+				"command": "vscode-fhir-liquid-converter.batchConvert",
+				"title": "FHIR Liquid Converter: Batch convert folder"
 			},
 			{
 				"command": "vscode-fhir-liquid-converter.selectTemplate",
@@ -76,10 +74,6 @@
 			{
 				"command": "vscode-fhir-liquid-converter.selectData",
 				"title": "FHIR Liquid Converter: Select as data (*.[hl7|ccda|json|xml])"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
-				"title": "FHIR Liquid Converter: Create a converter workspace"
 			}
 		],
 		"menus": {
@@ -108,6 +102,11 @@
 					"when": "resourceExtname == .json"
 				},
 				{
+					"command": "vscode-fhir-liquid-converter.batchConvert",
+					"group": "1_converter",
+					"when": "explorerResourceIsFolder"
+				},
+				{
 					"command": "vscode-fhir-liquid-converter.selectTemplate",
 					"group": "1_converter",
 					"when": "resourceExtname == .liquid"
@@ -131,26 +130,10 @@
 					"command": "vscode-fhir-liquid-converter.convertFhirToFsh",
 					"group": "1_converter",
 					"when": "resourceExtname == .json"
-				},
-				{
-					"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
-					"group": "1_converter"
-				},
-				{
-					"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
-					"group": "1_converter"
 				}
 			]
 		},
 		"keybindings": [
-			{
-				"command": "vscode-fhir-liquid-converter.updateTemplateFolder",
-				"key": "Ctrl+U"
-			},
-			{
-				"command": "vscode-fhir-liquid-converter.createConverterWorkspace",
-				"key": "Ctrl+W"
-			},
 			{
 				"command": "vscode-fhir-liquid-converter.convert",
 				"key": "Ctrl+R"
@@ -189,7 +172,7 @@
 		}
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
+		"vscode:prepublish": "npm run compile && npm run bundle",
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
 		"postinstall": "cd client && npm install && bash ./install-engine.sh && cd ../server && npm install && cd ..",
@@ -197,7 +180,9 @@
 		"test": "npm run compile && node ./client/out/test/runTest.js && node ./server/out/test/runTest.js",
 		"download-templates": "cd test-data && bash download-templates.sh",
 		"download-templates_with_git_bash": "cd test-data && \"C:\\Program Files\\Git\\bin\\bash.exe\" download-templates.sh",
-		"package": "npx @vscode/vsce package --baseContentUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\" --baseImagesUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\"",
+		"bundle": "node ./scripts/bundle.js",
+		"compile-bundle": "npm run compile && npm run bundle",
+		"package": "npm run compile && npm run bundle && npx @vscode/vsce package --baseContentUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\" --baseImagesUrl \"https://dev.azure.com/servicewell/swts/_git/vscode-fhir-liquid-converter?path=\"",
 		"lint": "tslint --fix client/src/**/*.ts  server/src/**/*.ts"
 	},
 	"devDependencies": {
@@ -205,8 +190,10 @@
 		"@types/mocha": "5.2.6",
 		"@types/node": "14.18.63",
 		"@types/vscode": "1.81.0",
+		"@types/js-yaml": "^4.0.9",
+		"esbuild": "^0.23.0",
 		"@vscode/test-electron": "2.3.2",
-		"@vscode/vsce": "2.24.0",
+		"@vscode/vsce": "3.7.1",
 		"chai": "4.2.0",
 		"chai-as-promised": "7.1.1",
 		"chai-subset": "1.6.0",

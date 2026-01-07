@@ -1,17 +1,31 @@
 /*!
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License in the project root for license information.
+ * 
+ * Copyright 2025 Service Well AB
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import * as osUtils from '../common/utils/os-utils';
-import { WindowsPlatformData } from './windows-platform-data';
-import { MacPlatformData } from './mac-platform-data';
-import { IPlatformData } from './platform-data';
 import * as cp from 'child_process';
+import * as os from 'os';
+import * as path from 'path';
 import * as engineConstants from '../common/constants/engine';
 import { TemplateManagementError } from '../common/errors/template-management-error';
-import * as path from 'path';
-import * as os from 'os';
+import * as osUtils from '../common/utils/os-utils';
+import { MacPlatformData } from './mac-platform-data';
+import { IPlatformData } from './platform-data';
+import { WindowsPlatformData } from './windows-platform-data';
 
 export class PlatformHandler {
 	private static _instance = new PlatformHandler();

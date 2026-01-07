@@ -1,17 +1,31 @@
 /*!
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License in the project root for license information.
+ * 
+ * Copyright 2025 Service Well AB
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import * as vscode from 'vscode';
-import * as workspaceStateConstants from '../../core/common/constants/workspace-state';
 import * as workspaceConfigurationConstants from '../../core/common/constants/workspace-configuration';
-import * as interaction from '../common/file-dialog/file-dialog-interaction';
+import * as workspaceStateConstants from '../../core/common/constants/workspace-state';
+import * as strUtils from '../../core/common/utils/string-utils';
 import { globals } from '../../core/globals';
 import { TemplateManagerFactory } from '../../core/template-manager/template-manager-factory';
-import { showInputBox } from '../common/input/input-box';
 import localize from '../../i18n/localize';
-import * as strUtils from '../../core/common/utils/string-utils';
+import * as interaction from '../common/file-dialog/file-dialog-interaction';
+import { showInputBox } from '../common/input/input-box';
 
 export async function pushTemplatesCommand() {
 	// Add push bar
